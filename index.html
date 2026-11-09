@@ -1,0 +1,3472 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#070f1e" />
+  <title>जन सेवा केंद्र — Digital Citizen & CSC VLE Enterprise Cloud Suite 2026</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  
+  <!-- Font Awesome 6 Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Razorpay Official Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <!-- Firebase App, Database & Storage SDKs (Compat v9) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+  <style>
+    :root {
+      --primary: #1d4ed8;
+      --primary-dark: #1e3a8a;
+      --primary-light: #3b82f6;
+      --primary-glow: rgba(37, 99, 235, 0.35);
+      --accent: #f59e0b;
+      --accent-glow: rgba(245, 158, 11, 0.4);
+      --emerald: #10b981;
+      --emerald-dark: #047857;
+      --rose: #e11d48;
+      --dark-card: #0b1329;
+      --light-bg: #f8fafc;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --border-color: #e2e8f0;
+      --radius-xl: 22px;
+      --radius-lg: 16px;
+      --radius-md: 12px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+      --safe-top: env(safe-area-inset-top, 0px);
+      --shadow-premium: 0 20px 40px -15px rgba(15, 23, 42, 0.07);
+      --glass-bg: rgba(255, 255, 255, 0.94);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--light-bg);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      padding-bottom: calc(85px + var(--safe-bottom));
+    }
+
+    @media (min-width: 960px) {
+      body { padding-bottom: 0px; }
+    }
+
+    /* TOP LIVE TICKER */
+    .top-announcement-bar {
+      background: linear-gradient(90deg, #050b14 0%, #1e3a8a 50%, #831843 100%);
+      color: #fef08a;
+      padding: 9px 16px;
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow: hidden;
+      white-space: nowrap;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .ticker-content {
+      display: inline-block;
+      animation: marquee 34s linear infinite;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
+    }
+
+    /* NAVBAR */
+    header {
+      background: var(--glass-bg);
+      backdrop-filter: blur(25px);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      border-bottom: 1px solid var(--border-color);
+      padding-top: var(--safe-top);
+    }
+
+    .nav-container {
+      max-width: 1340px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .logo-badge {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #f59e0b 0%, #2563eb 50%, #10b981 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 22px;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.35);
+    }
+
+    .brand-text h1 {
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #0f172a, #1e3a8a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-text span {
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    @media (max-width: 960px) {
+      .desktop-nav { display: none; }
+    }
+
+    .nav-link-btn {
+      padding: 10px 18px;
+      border-radius: 14px;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: var(--text-muted);
+      border: 1px solid transparent;
+      background: transparent;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .nav-link-btn:hover, .nav-link-btn.active {
+      color: var(--primary);
+      background: rgba(37, 99, 235, 0.08);
+      border-color: rgba(37, 99, 235, 0.2);
+    }
+
+    .nav-btn-special {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff !important;
+      box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+    }
+    .nav-btn-special:hover { transform: translateY(-2px); }
+
+    /* MOBILE DOCK */
+    .mobile-bottom-bar {
+      display: none;
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(25px);
+      border-top: 1px solid var(--border-color);
+      padding: 8px 12px calc(8px + var(--safe-bottom));
+      z-index: 9999;
+      justify-content: space-around;
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    @media (max-width: 960px) {
+      .mobile-bottom-bar { display: flex; }
+    }
+
+    .bar-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: #94a3b8;
+      font-size: 11px;
+      font-weight: 700;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 10px;
+      border-radius: 12px;
+      transition: all 0.2s;
+    }
+
+    .bar-item.active { color: var(--primary); }
+    .bar-item.active i { transform: scale(1.15); }
+
+    /* HERO BANNER */
+    .hero-outer-box {
+      background: radial-gradient(130% 130% at 50% 0%, #1e3a8a 0%, #0b1429 55%, #020617 100%);
+      color: #fff;
+      padding: 60px 20px 85px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-outer-box::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 340px; height: 340px;
+      background: rgba(59, 130, 246, 0.25);
+      border-radius: 50%;
+      filter: blur(90px);
+    }
+
+    .hero-inner-grid {
+      max-width: 1340px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1.25fr 0.85fr;
+      gap: 40px;
+      align-items: center;
+      position: relative;
+      z-index: 10;
+    }
+
+    @media (max-width: 960px) {
+      .hero-inner-grid { grid-template-columns: 1fr; text-align: center; }
+    }
+
+    .hero-headline {
+      font-size: clamp(28px, 4.4vw, 48px);
+      font-weight: 900;
+      line-height: 1.2;
+      margin-bottom: 18px;
+    }
+
+    .hero-headline span {
+      background: linear-gradient(135deg, #fbbf24, #f59e0b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .btn-glow {
+      background: linear-gradient(135deg, #f59e0b, #ea580c);
+      color: #fff;
+      border: none;
+      padding: 13px 26px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+      transition: all 0.25s ease;
+      text-decoration: none;
+    }
+    .btn-glow:hover { transform: translateY(-2px); box-shadow: 0 12px 30px rgba(245, 158, 11, 0.5); }
+    .btn-glow:active { transform: scale(0.98); }
+
+    .btn-blue-glow {
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #fff;
+      border: none;
+      padding: 13px 26px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 14px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+      transition: all 0.25s ease;
+    }
+    .btn-blue-glow:hover { transform: translateY(-2px); }
+
+    /* GATEWAY CARDS */
+    .gateway-cards-container {
+      max-width: 1240px;
+      margin: -45px auto 40px;
+      padding: 0 20px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 26px;
+      position: relative;
+      z-index: 20;
+    }
+
+    @media (max-width: 768px) {
+      .gateway-cards-container { grid-template-columns: 1fr; margin-top: 20px; }
+    }
+
+    .gateway-card {
+      background: #ffffff;
+      border-radius: var(--radius-xl);
+      padding: 34px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 25px 50px rgba(15, 23, 42, 0.08);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .gateway-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 30px 60px rgba(37, 99, 235, 0.16);
+      border-color: #bfdbfe;
+    }
+
+    /* KIOSK HERO WALLET */
+    .kiosk-hero-wallet {
+      background: linear-gradient(135deg, #09132b 0%, #172554 100%);
+      border-radius: var(--radius-xl);
+      padding: 28px;
+      color: #fff;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.1fr;
+      gap: 22px;
+      margin-bottom: 25px;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    @media (max-width: 900px) {
+      .kiosk-hero-wallet { grid-template-columns: 1fr; }
+    }
+
+    .wallet-box-item {
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(10px);
+    }
+
+    /* CONTAINER & GRIDS */
+    .main-container {
+      max-width: 1340px;
+      margin: 0 auto;
+      padding: 30px 20px 60px;
+    }
+
+    .category-scroll-bar {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 12px;
+      margin-bottom: 24px;
+      scrollbar-width: none;
+    }
+    .category-scroll-bar::-webkit-scrollbar { display: none; }
+
+    .cat-pill-btn {
+      padding: 10px 22px;
+      border-radius: 100px;
+      font-size: 13.5px;
+      font-weight: 700;
+      border: 1.5px solid var(--border-color);
+      background: #fff;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .cat-pill-btn:hover { border-color: var(--primary); color: var(--primary); }
+    .cat-pill-btn.active {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 4px 15px rgba(37, 99, 235, 0.35);
+    }
+
+    .services-grid-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 22px;
+    }
+
+    .service-card-item {
+      background: #ffffff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      padding: 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow-premium);
+      transition: all 0.25s ease;
+    }
+
+    .service-card-item:hover {
+      transform: translateY(-5px);
+      border-color: #93c5fd;
+      box-shadow: 0 25px 45px rgba(37, 99, 235, 0.12);
+    }
+
+    .card-icon-box {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: #eff6ff;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+
+    .req-docs-preview {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 12px 14px;
+      margin: 14px 0 18px;
+      font-size: 12.5px;
+      color: #334155;
+      line-height: 1.6;
+    }
+
+    /* VIEW PAGES */
+    .view-page { display: none; }
+    .view-page.active { display: block; animation: fadeIn 0.3s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* FORMS & DROPZONES */
+    .upload-container-card {
+      max-width: 820px;
+      margin: 10px auto 40px;
+      background: #ffffff;
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--border-color);
+      box-shadow: 0 25px 50px rgba(15, 23, 42, 0.09);
+      overflow: hidden;
+    }
+
+    .upload-header-gradient {
+      background: linear-gradient(135deg, #09132b, #1d4ed8);
+      color: #fff;
+      padding: 26px 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .doc-dropzone-item {
+      background: #f8fafc;
+      border: 2px dashed #93c5fd;
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-bottom: 14px;
+      transition: all 0.2s ease;
+    }
+    .doc-dropzone-item.has-file {
+      border-style: solid;
+      border-color: #10b981;
+      background: #f0fdf4;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .field-group label {
+      font-size: 13px;
+      font-weight: 700;
+      color: #334155;
+    }
+    .field-control {
+      width: 100%;
+      padding: 13px 16px;
+      border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-md);
+      font-size: 14.5px;
+      background: #fdfdfd;
+      outline: none;
+      transition: all 0.2s;
+    }
+    .field-control:focus {
+      border-color: var(--primary);
+      background: #fff;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    }
+
+    /* MODALS */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(10px);
+      display: none;
+      place-items: center;
+      z-index: 10000;
+      padding: 20px;
+    }
+    .modal-backdrop.active { display: grid; }
+
+    .native-modal-sheet {
+      background: #ffffff;
+      border-radius: var(--radius-xl);
+      width: 100%;
+      max-width: 620px;
+      padding: 30px;
+      position: relative;
+      box-shadow: 0 30px 70px rgba(0,0,0,0.35);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-close-ico {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      background: #f1f5f9;
+      border: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      color: #64748b;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .modal-close-ico:hover { background: #fee2e2; color: #ef4444; }
+
+    /* TABLES & BADGES */
+    .admin-table-box {
+      background: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      margin-bottom: 26px;
+      box-shadow: var(--shadow-premium);
+    }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    .admin-table th {
+      background: #f8fafc;
+      padding: 15px 16px;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #475569;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .admin-table td {
+      padding: 15px 16px;
+      font-size: 13.5px;
+      border-bottom: 1px solid #f1f5f9;
+      vertical-align: middle;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border-radius: 100px;
+      font-size: 11.5px;
+      font-weight: 800;
+    }
+    .status-pending { background: #fef3c7; color: #b45309; }
+    .status-process { background: #eff6ff; color: #1d4ed8; }
+    .status-approved { background: #d1fae5; color: #047857; }
+    .status-rejected { background: #fee2e2; color: #b91c1c; }
+    .status-clarification { background: #fae8ff; color: #86198f; }
+
+    .btn-action-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 10px;
+      font-size: 12.5px;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-action-blue { background: #eff6ff; color: #1d4ed8; border: 1px solid #bfdbfe; }
+    .btn-action-green { background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0; }
+    .btn-action-red { background: #fef2f2; color: #b91c1c; border: 1px solid #fecaca; }
+    .btn-action-purple { background: #faf5ff; color: #7e22ce; border: 1px solid #e9d5ff; }
+    .btn-action-pill:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* STEPPER */
+    .stepper-container {
+      display: flex;
+      justify-content: space-between;
+      position: relative;
+      margin: 24px 0 16px;
+    }
+    .stepper-container::before {
+      content: '';
+      position: absolute;
+      top: 18px;
+      left: 30px;
+      right: 30px;
+      height: 3px;
+      background: #e2e8f0;
+      z-index: 1;
+    }
+    .step-item {
+      position: relative;
+      z-index: 2;
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      width: 80px;
+    }
+    .step-dot {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 800;
+      border: 2px solid #e2e8f0;
+    }
+    .step-item.active .step-dot {
+      background: #2563eb;
+      color: #fff;
+      border-color: #2563eb;
+      box-shadow: 0 0 15px rgba(37, 99, 235, 0.5);
+    }
+    .step-item.done .step-dot {
+      background: #10b981;
+      color: #fff;
+      border-color: #10b981;
+    }
+    .step-title {
+      font-size: 11px;
+      font-weight: 800;
+      color: #64748b;
+      text-align: center;
+    }
+
+    /* FLOATING WHATSAPP */
+    .whatsapp-float {
+      position: fixed;
+      bottom: calc(90px + var(--safe-bottom));
+      right: 22px;
+      background: #25d366;
+      color: #fff;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+      z-index: 999;
+      text-decoration: none;
+      transition: all 0.25s ease;
+    }
+    .whatsapp-float:hover { transform: scale(1.08); }
+
+    /* TOAST */
+    #native-toast {
+      position: fixed;
+      bottom: calc(95px + var(--safe-bottom));
+      left: 50%;
+      transform: translateX(-50%) translateY(30px);
+      background: rgba(15, 23, 42, 0.96);
+      color: #fff;
+      padding: 13px 28px;
+      border-radius: 100px;
+      font-size: 13.5px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.3s ease;
+      z-index: 99999;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+      white-space: nowrap;
+    }
+    #native-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* OFFICIAL ACKNOWLEDGEMENT SLIP (PRINT TEMPLATE) */
+    .receipt-print-wrapper {
+      background: #fff;
+      border: 2px solid #1e3a8a;
+      border-radius: 16px;
+      padding: 24px;
+      color: #0f172a;
+      font-size: 13px;
+      position: relative;
+    }
+    .receipt-print-wrapper::after {
+      content: "JAN SEVA KENDRA";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-30deg);
+      font-size: 48px;
+      font-weight: 900;
+      color: rgba(30, 58, 138, 0.05);
+      pointer-events: none;
+      white-space: nowrap;
+      z-index: 0;
+    }
+    .receipt-content { position: relative; z-index: 1; }
+
+    @media print {
+      body * { visibility: hidden; }
+      #printable-slip-area, #printable-slip-area * { visibility: visible; }
+      #printable-slip-area {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        border: 1px solid #000;
+        box-shadow: none;
+      }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- LIVE TICKER -->
+  <div class="top-announcement-bar">
+    <i class="fa-solid fa-shield-halved" style="color:#fbbf24;"></i>
+    <div class="ticker-content" id="live-ticker-text">
+      🔴 2026 आधिकारिक क्लाउड पोर्टल: जाति, आय, निवास, राशन, नया वोटर, ई-श्रम, पैन व जमीन रसीद सेवाएँ लाइव हैं। Firebase Cloud Sync सक्रिय है।
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <header>
+    <div class="nav-container">
+      <div class="brand-logo" onclick="switchTab('home')">
+        <div class="logo-badge">
+          <i class="fa-solid fa-shapes"></i>
+        </div>
+        <div class="brand-text">
+          <h1>JAN SEVA KENDRA</h1>
+          <span>Digital Citizen & VLE Enterprise 2026</span>
+        </div>
+      </div>
+
+      <nav class="desktop-nav">
+        <button class="nav-link-btn active" id="desk-home" onclick="switchTab('home')">
+          <i class="fa-solid fa-house"></i> Home
+        </button>
+        <button class="nav-link-btn" id="desk-track" onclick="switchTab('track')">
+          <i class="fa-solid fa-compass"></i> Live Status / Slip
+        </button>
+        
+        <div id="desktop-user-container">
+          <button class="nav-link-btn nav-btn-special" onclick="openAuthModal('citizen')">
+            <i class="fa-solid fa-user-lock"></i> Citizen / VLE Login
+          </button>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MOBILE BOTTOM DOCK -->
+  <div class="mobile-bottom-bar">
+    <button class="bar-item active" id="mob-home" onclick="switchTab('home')">
+      <i class="fa-solid fa-house"></i>
+      <span>Home</span>
+    </button>
+    <button class="bar-item" id="mob-track" onclick="switchTab('track')">
+      <i class="fa-solid fa-compass"></i>
+      <span>Track</span>
+    </button>
+    <button class="bar-item" id="mob-user" onclick="handleMobileUserClick()">
+      <i class="fa-solid fa-user-circle" id="mob-user-icon"></i>
+      <span id="mob-user-text">Portals</span>
+    </button>
+    <button class="bar-item" id="mob-admin" onclick="handleAdminNav()">
+      <i class="fa-solid fa-shield-halved"></i>
+      <span>Admin</span>
+    </button>
+  </div>
+
+  <!-- FLOATING WHATSAPP -->
+  <a href="https://wa.me/919973252389?text=Hello%20Jan%20Seva%20Kendra" target="_blank" class="whatsapp-float" title="Contact Support">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- ==================== VIEW 1: HOME PAGE ==================== -->
+  <main id="view-home" class="view-page active">
+    <!-- ULTRA HERO BANNER -->
+    <section class="hero-outer-box">
+      <div class="hero-inner-grid">
+        <div>
+          <div style="display:inline-flex; align-items:center; gap:8px; padding:6px 18px; border-radius:100px; background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.25); font-size:13px; font-weight:800; color:#38bdf8; margin-bottom:18px;">
+            <i class="fa-solid fa-cloud-bolt"></i> Firebase Cloud Connected • No-OTP Direct Access
+          </div>
+          <h2 class="hero-headline">डिजिटल नागरिक एवं सीएससी <span>कियोस्क सुइट 2026</span></h2>
+          <p style="font-size: 15.5px; color: #cbd5e1; line-height: 1.7; margin-bottom: 26px;">
+            सरकारी व नागरिक सेवाओं का सबसे तेज क्लाउड पोर्टल। बिना किसी OTP झंझट के तुरंत लॉगिन, ऑटो इमेज कंप्रेसर और ऑफिशियल पावती रसीद प्रिंटर के साथ तैयार।
+          </p>
+
+          <div style="display:flex; gap:14px; flex-wrap:wrap;">
+            <button class="btn-glow" onclick="openAuthModal('citizen')">
+              <i class="fa-solid fa-user"></i> Citizen Portal Login
+            </button>
+            <button class="btn-blue-glow" onclick="openAuthModal('kiosk')">
+              <i class="fa-solid fa-shop"></i> CSC VLE Kiosk Login
+            </button>
+          </div>
+        </div>
+
+        <!-- PUBLIC TRACKER BOX -->
+        <div style="background:rgba(255,255,255,0.08); backdrop-filter:blur(25px); border:1px solid rgba(255,255,255,0.22); padding:28px; border-radius:var(--radius-xl); text-align:left;">
+          <h3 style="font-size:19px; font-weight:800; color:#fff; margin-bottom:8px;">
+            <i class="fa-solid fa-magnifying-glass-chart" style="color:#38bdf8;"></i> त्वरित आवेदन ट्रैकर
+          </h3>
+          <p style="color:#cbd5e1; font-size:13.5px; line-height:1.5;">अपनी Reference ID या रजिस्टर्ड 10-अंकीय मोबाइल नंबर दर्ज करें:</p>
+          <div style="display:flex; gap:10px; margin-top:18px;">
+            <input type="text" id="hero-track-id" class="field-control" placeholder="उदा: JSK-2026-102938" style="background:#fff; font-weight:700;" />
+            <button class="btn-glow" onclick="trackFromHero()"><i class="fa-solid fa-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PORTAL GATEWAY SECTION -->
+    <section class="gateway-cards-container">
+      <!-- CITIZEN CARD -->
+      <div class="gateway-card">
+        <div>
+          <div style="width:64px; height:64px; border-radius:20px; background:#eff6ff; color:#2563eb; display:flex; align-items:center; justify-content:center; font-size:30px; margin-bottom:20px;">
+            <i class="fa-solid fa-user-shield"></i>
+          </div>
+          <h3 style="font-size:23px; font-weight:900; margin-bottom:10px;">नागरिक सेवा पोर्टल (Citizen Portal)</h3>
+          <p style="color:var(--text-muted); font-size:14px; line-height:1.6; margin-bottom:18px;">
+            जाति, आवासीय, आय, राशन, पैन व वोटर कार्ड हेतु सीधे दस्तावेज़ अपलोड करें और तैयार प्रमाण पत्र डाउनलोड करें।
+          </p>
+          <ul style="list-style:none; font-size:13.5px; color:#334155; margin-bottom:26px; display:flex; flex-direction:column; gap:10px;">
+            <li><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> वन नंबर - वन आईडी सिस्टम (बिना OTP तुरंत लॉगिन)</li>
+            <li><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> ऑटो कंप्रेस्ड दस्तावेज़ अपलोड व लाइव स्टेटस ट्रैकिंग</li>
+            <li><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> सरकारी स्टाइल पावती रसीद व ओरिजिनल PDF डाउनलोड</li>
+          </ul>
+        </div>
+        <button class="btn-blue-glow" style="width:100%; justify-content:center;" onclick="accessCitizenPortal()">
+          <span>नागरिक पोर्टल में प्रवेश करें</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+
+      <!-- KIOSK OPERATOR CARD -->
+      <div class="gateway-card" style="border: 1.5px solid #fde68a; background: linear-gradient(180deg, #fffef9 0%, #ffffff 100%);">
+        <div>
+          <div style="width:64px; height:64px; border-radius:20px; background:#fef3c7; color:#d97706; display:flex; align-items:center; justify-content:center; font-size:30px; margin-bottom:20px;">
+            <i class="fa-solid fa-store"></i>
+          </div>
+          <div style="display:inline-block; background:#fef3c7; color:#b45309; padding:4px 12px; border-radius:100px; font-size:12px; font-weight:800; margin-bottom:10px;">
+            VLE PASSBOOK, DAILY REGISTER & ID SUITE
+          </div>
+          <h3 style="font-size:23px; font-weight:900; margin-bottom:10px;">सीएससी Kiosk VLE ऑपरेटर सुइट</h3>
+          <p style="color:var(--text-muted); font-size:14px; line-height:1.6; margin-bottom:18px;">
+            साइबर कैफे और VLE बंधुओं के लिए विशेष पोर्टल। 4-अंकीय PIN, ऑटो वॉलेट कमीशन, डिजिटल आई-कार्ड, और दैनिक रोकड़ बही (Cash Register)।
+          </p>
+          <ul style="list-style:none; font-size:13.5px; color:#334155; margin-bottom:26px; display:flex; flex-direction:column; gap:10px;">
+            <li><i class="fa-solid fa-circle-check" style="color:#f59e0b;"></i> दैनिक गल्ला / ऑफलाइन रोकड़ बही (Daily Cash Register)</li>
+            <li><i class="fa-solid fa-circle-check" style="color:#f59e0b;"></i> अधिकृत VLE आई-कार्ड और वॉलेट पासबुक लेजर</li>
+            <li><i class="fa-solid fa-circle-check" style="color:#f59e0b;"></i> 4-Digit Security PIN व त्वरित कमीशन क्रेडिट</li>
+          </ul>
+        </div>
+        <button class="btn-glow" style="width:100%; justify-content:center;" onclick="accessKioskPortal()">
+          <span>Kiosk VLE पोर्टल में प्रवेश करें</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </section>
+
+    <!-- STATUTORY DISCLAIMER SECTION (LEGAL REQUIREMENT) -->
+    <section style="max-width:1240px; margin:20px auto 40px; padding:20px; background:#f1f5f9; border-radius:16px; border:1px solid #cbd5e1; font-size:12.5px; color:#475569; line-height:1.7;">
+      <strong>⚠️ वैधानिक अस्वीकरण (Statutory Legal Notice):</strong> यह पोर्टल नागरिकों और सीएससी संचालकों की सुविधा हेतु एक निजी तकनीकी सहायता एवं सुविधा पोर्टल है। यह किसी भी राज्य अथवा केंद्र सरकार का आधिकारिक पोर्टल नहीं है। हमारे द्वारा सरकारी पोर्टलों (जैसे Bihar RTPS, Voter ECI, e-Shram, Passport Seva आदि) पर ऑनलाइन आवेदन हेतु केवल तकनीकी सुविधा व सहायता शुल्क लिया जाता है। आधिकारिक सेवाओं के लिए आप सरकार की वेबसाइटों (serviceonline.bihar.gov.in, voters.eci.gov.in) पर भी सीधे जा सकते हैं।
+    </section>
+  </main>
+
+  <!-- ==================== VIEW 2: DEDICATED CITIZEN PORTAL ==================== -->
+  <main id="view-citizen-portal" class="view-page">
+    <div class="main-container">
+      <div id="citizen-emergency-lock-banner" style="display:none;" class="emergency-lock-card">
+        <i class="fa-solid fa-triangle-exclamation" style="font-size:52px; margin-bottom:14px; color:#fef08a;"></i>
+        <h2 style="font-size:26px; font-weight:900;">⚠️ नागरिक खाता प्रशासनिक कारणों से लॉक किया गया है</h2>
+        <p style="font-size:15px; margin:10px auto 18px; max-width:680px; line-height:1.6;" id="citizen-lock-reason-text">
+          अमान्य दस्तावेज़ प्राप्त होने के कारण इसे मुख्य संचालक द्वारा अस्थायी रूप से फ्रीज कर दिया गया है।
+        </p>
+        <a href="https://wa.me/919973252389?text=Help:%20My%20Citizen%20ID%20is%20Locked" target="_blank" class="btn-glow" style="background:#fff; color:#b91c1c; font-weight:900;">
+          <i class="fa-brands fa-whatsapp"></i> संचालक से संपर्क करें
+        </a>
+      </div>
+
+      <div id="citizen-active-content">
+        <div style="background:linear-gradient(135deg, #1e3a8a, #2563eb); border-radius:var(--radius-xl); padding:28px; color:#fff; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px; margin-bottom:28px; box-shadow:0 15px 35px rgba(37,99,235,0.2);">
+          <div>
+            <span style="font-size:12px; font-weight:800; text-transform:uppercase; color:#93c5fd; letter-spacing:1px;">नागरिक डैशबोर्ड (Citizen Dashboard)</span>
+            <h2 id="citizen-name-disp" style="font-size:28px; font-weight:900; margin:4px 0;">नमस्ते नागरिक</h2>
+            <p style="font-size:13.5px; color:#e0e7ff;">यहाँ से नई सेवा हेतु आवेदन करें या अपने बने हुए सर्टिफिकेट्स व पावती रसीद डाउनलोड करें।</p>
+          </div>
+          <div style="display:flex; gap:12px;">
+            <button class="btn-glow" style="padding:10px 20px; font-size:13px;" onclick="scrollToCitizenServices()">
+              <i class="fa-solid fa-plus-circle"></i> नया आवेदन करें
+            </button>
+            <button class="btn-action-pill btn-action-red" style="padding:10px 20px; font-size:13px;" onclick="handleUserLogout()">
+              <i class="fa-solid fa-right-from-bracket"></i> Logout
+            </button>
+          </div>
+        </div>
+
+        <div class="admin-table-box">
+          <div style="padding:16px 22px; background:#f8fafc; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+            <strong style="color:#1e3a8a; font-size:14.5px;"><i class="fa-solid fa-clock-rotate-left"></i> मेरे आवेदन व जारी प्रमाण पत्र (My Applications & Certificates)</strong>
+            <span style="font-size:12.5px; color:var(--text-muted);">Firebase Live 🔴</span>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Reference ID</th>
+                  <th>Service Name</th>
+                  <th>Applied Date</th>
+                  <th>Status</th>
+                  <th>Remarks / Action</th>
+                  <th>Official Certificate</th>
+                  <th>Receipt Slip</th>
+                </tr>
+              </thead>
+              <tbody id="citizen-apps-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div id="citizen-services-section" style="margin-top:40px;">
+          <div style="text-align:center; margin-bottom: 26px;">
+            <h2 style="font-size:26px; font-weight:900;">उपलब्ध नागरिक सेवाएँ (Apply Services)</h2>
+            <p style="color:var(--text-muted); font-size:14px;">दस्तावेज़ अपलोड करें और तुरंत पावती रसीद प्राप्त करें</p>
+          </div>
+
+          <div class="category-scroll-bar" id="citizen-category-chips"></div>
+          <div class="services-grid-layout" id="citizen-services-grid"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================== VIEW 3: DEDICATED KIOSK VLE PORTAL ==================== -->
+  <main id="view-kiosk-portal" class="view-page">
+    <div class="main-container">
+      <div id="kiosk-emergency-lock-banner" style="display:none;" class="emergency-lock-card">
+        <i class="fa-solid fa-ban" style="font-size:52px; margin-bottom:14px; color:#fef08a;"></i>
+        <h2 style="font-size:26px; font-weight:900;">⚠️ KIOSK ID प्रशासनिक नियमों के उल्लंघन के कारण ब्लॉक है</h2>
+        <p style="font-size:15px; margin:10px auto 18px; max-width:680px; line-height:1.6;" id="kiosk-lock-reason-text">
+          सुरक्षा कारणों अथवा गलत दस्तावेज़ अपलोड किए जाने पर यह आईडी फ्रीज की गई है।
+        </p>
+        <a href="https://wa.me/919973252389?text=Urgent:%20My%20Kiosk%20VLE%20ID%20is%20Blocked" target="_blank" class="btn-glow" style="background:#fff; color:#b91c1c; font-weight:900;">
+          <i class="fa-brands fa-whatsapp"></i> समाधान प्राप्त करें
+        </a>
+      </div>
+
+      <div id="kiosk-active-content">
+        <!-- KIOSK LIVE WALLET & TOOLS -->
+        <div class="kiosk-hero-wallet">
+          <div class="wallet-box-item">
+            <span style="font-size:11.5px; text-transform:uppercase; color:#cbd5e1; font-weight:800; letter-spacing:0.5px;">Prepaid Wallet Balance</span>
+            <h2 id="kiosk-wallet-bal" style="font-size:32px; font-weight:900; color:#38bdf8; margin:6px 0 12px;">₹0.00</h2>
+            <div style="display:flex; gap:8px;">
+              <button class="btn-glow" style="padding:8px 16px; font-size:12.5px;" onclick="openDepositModal()">
+                <i class="fa-solid fa-plus-circle"></i> Top-Up
+              </button>
+              <button class="btn-action-pill btn-action-blue" onclick="openPassbookModal()">
+                <i class="fa-solid fa-book"></i> Passbook
+              </button>
+            </div>
+          </div>
+
+          <div class="wallet-box-item">
+            <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+              <span style="font-size:11.5px; text-transform:uppercase; color:#cbd5e1; font-weight:800; letter-spacing:0.5px;">Total Commission</span>
+              <span id="kiosk-today-comm-chip" style="font-size:11px; font-weight:800; background:rgba(16,185,129,0.25); color:#a7f3d0; padding:2px 8px; border-radius:8px;">आज: ₹0</span>
+            </div>
+            <h2 id="kiosk-comm-bal" style="font-size:32px; font-weight:900; color:#34d399; margin:6px 0 12px;">₹0.00</h2>
+            <button class="btn-glow" style="padding:8px 16px; font-size:12.5px; background:linear-gradient(135deg, #10b981, #059669);" onclick="openWithdrawModal()">
+              <i class="fa-solid fa-money-bill-transfer"></i> Payout
+            </button>
+          </div>
+
+          <div class="wallet-box-item">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <span style="font-size:11px; text-transform:uppercase; color:#cbd5e1; font-weight:800;" id="kiosk-level-badge">⭐ Silver VLE</span>
+              <span id="kiosk-pin-status" style="font-size:11px; color:#34d399; font-weight:800;">PIN: Active 🔒</span>
+            </div>
+            <h3 id="kiosk-center-title" style="font-size:19px; font-weight:900; margin:6px 0 4px;">CSC Center</h3>
+            <p id="kiosk-operator-name" style="font-size:12.5px; color:#cbd5e1; margin-bottom:12px;">Operator</p>
+            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+              <button class="btn-glow" style="padding:6px 14px; font-size:12px; background:#475569;" onclick="openVLEIdCardModal()">
+                <i class="fa-solid fa-id-card"></i> VLE ID Card
+              </button>
+              <button class="btn-glow" style="padding:6px 14px; font-size:12px; background:#047857;" onclick="openDailyRegisterModal()">
+                <i class="fa-solid fa-cash-register"></i> रोकड़ बही (Cash)
+              </button>
+              <button class="btn-action-pill btn-action-red" onclick="handleUserLogout()"><i class="fa-solid fa-power-off"></i> Logout</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- UNIVERSAL GLOBAL SEARCH & SLIP PRINT -->
+        <div style="background:#ffffff; border-radius:var(--radius-xl); border:1.5px solid #bfdbfe; padding:22px; margin-bottom:28px; box-shadow:var(--shadow-premium);">
+          <div style="margin-bottom:14px;">
+            <strong style="color:#1e3a8a; font-size:16.5px;"><i class="fa-solid fa-globe"></i> यूनिवर्सल कस्टमर सर्च, स्टेटस व रसीद प्रिंट (Search & Slip)</strong>
+            <p style="font-size:13px; color:var(--text-muted); margin-top:3px;">किसी भी ग्राहक का Reference ID या मोबाइल नंबर डालकर तुरंत स्थिति देखें, पावती रसीद या सर्टिफिकेट प्रिंट करें</p>
+          </div>
+          <div style="display:flex; gap:10px;">
+            <input type="text" id="kiosk-global-search-input" class="field-control" placeholder="उदा: JSK-2026-XXXXXX या ग्राहक का 10-अंकीय मोबाइल" />
+            <button class="btn-glow" style="padding:10px 24px; white-space:nowrap;" onclick="performKioskGlobalSearch()">
+              <i class="fa-solid fa-search"></i> खोजें
+            </button>
+          </div>
+          <div id="kiosk-global-search-result" style="margin-top:16px;"></div>
+        </div>
+
+        <!-- KIOSK APPLICATIONS LEDGER -->
+        <div class="admin-table-box">
+          <div style="padding:16px 22px; background:#f8fafc; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center;">
+            <strong style="font-size:14.5px; color:#1e3a8a;"><i class="fa-solid fa-clock-rotate-left"></i> केंद्र द्वारा किए गए आवेदन (Applications & Status)</strong>
+            <button class="btn-glow" style="padding:7px 18px; font-size:12.5px;" onclick="scrollToKioskServices()">
+              <i class="fa-solid fa-plus"></i> नया आवेदन करें
+            </button>
+          </div>
+          <div style="overflow-x:auto;">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Ref ID</th>
+                  <th>Customer</th>
+                  <th>Service</th>
+                  <th>Fee Paid</th>
+                  <th>Commission</th>
+                  <th>Status</th>
+                  <th>Certificate</th>
+                  <th>Official Slip</th>
+                </tr>
+              </thead>
+              <tbody id="kiosk-my-apps-body"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- KIOSK SERVICES GRID -->
+        <div id="kiosk-services-section" style="margin-top:40px;">
+          <div style="text-align:center; margin-bottom: 26px;">
+            <h2 style="font-size:26px; font-weight:900;">Kiosk VLE ऑपरेटर सेवाएँ (VLE Flat Discount)</h2>
+            <p style="color:var(--text-muted); font-size:14px;">हर आवेदन पर फ्लैट डिस्काउंट और तुरंत वॉलेट कमीशन क्रेडिट</p>
+          </div>
+
+          <div class="category-scroll-bar" id="kiosk-category-chips"></div>
+          <div class="services-grid-layout" id="kiosk-services-grid"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================== VIEW 4: FAST UPLOAD & DUAL PAYMENT ==================== -->
+  <main id="view-apply" class="view-page">
+    <div class="main-container">
+      <button class="nav-link-btn" onclick="returnToActivePortal()" style="margin-bottom: 18px; background:#fff; border:1px solid var(--border-color);">
+        <i class="fa-solid fa-arrow-left"></i> वापस पोर्टल पर जाएं (Back to Portal)
+      </button>
+
+      <div class="upload-container-card">
+        <div class="upload-header-gradient">
+          <div style="display:flex; align-items:center; gap:16px;">
+            <div id="upload-svc-icon" style="font-size:26px; width:52px; height:52px; background:rgba(255,255,255,0.18); border-radius:14px; display:flex; align-items:center; justify-content:center;"></div>
+            <div>
+              <h2 id="upload-svc-title" style="font-size: 21px; font-weight: 800;">Service Name</h2>
+              <p id="upload-svc-desc" style="font-size: 13px; opacity: 0.9;"></p>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <span style="font-size: 11px; text-transform: uppercase; font-weight: 800; opacity: 0.85;" id="upload-fee-type">Govt Assist Fee</span>
+            <div id="upload-svc-price" style="font-size: 28px; font-weight: 900; color: #fde047;">₹0</div>
+          </div>
+        </div>
+
+        <form id="fast-upload-form" style="padding: 28px;" onsubmit="handleFastUploadSubmit(event)">
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom:16px;">
+            <div class="field-group">
+              <label>Applicant Full Name (आवेदक का नाम) *</label>
+              <input type="text" id="cust-name" class="field-control" placeholder="उदा: राहुल कुमार" required />
+            </div>
+            <div class="field-group">
+              <label>WhatsApp / Mobile Number *</label>
+              <input type="tel" id="cust-mobile" maxlength="10" class="field-control" placeholder="10 अंकों का मोबाइल" required />
+            </div>
+          </div>
+
+          <!-- DYNAMIC DOCUMENT DROPZONES (WITH AUTO-COMPRESSOR) -->
+          <div style="margin-bottom: 18px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <label style="font-size: 14px; font-weight: 800; color:#1e3a8a; display:flex; align-items:center; gap:8px;">
+                <i class="fa-solid fa-cloud-arrow-up"></i> आवश्यक दस्तावेज़ अपलोड करें (Auto-Compressed < 200KB):
+              </label>
+              <span style="font-size:11.5px; color:#10b981; font-weight:700;"><i class="fa-solid fa-bolt"></i> Auto Compressing Active</span>
+            </div>
+            <div id="dynamic-upload-dropzones-list"></div>
+          </div>
+
+          <div class="field-group">
+            <label>Customer Specific Note / Details (वैकल्पिक विवरण)</label>
+            <input type="text" id="cust-notes" class="field-control" placeholder="जैसे: नाम सुधार, नया पता आदि..." />
+          </div>
+
+          <!-- LEGAL SELF-UNDERTAKING CHECKBOX -->
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:12px 14px; margin:16px 0; font-size:12.5px; color:#334155; display:flex; align-items:flex-start; gap:10px;">
+            <input type="checkbox" id="self-undertaking-check" required style="margin-top:3px; transform:scale(1.2);" />
+            <label for="self-undertaking-check" style="cursor:pointer; line-height:1.5;">
+              मैं प्रमाणित करता हूँ कि मेरे द्वारा दिए गए सभी विवरण एवं अपलोड किए गए दस्तावेज़ पूर्णतः सत्य एवं मूल हैं। किसी भी विसंगति हेतु मैं स्वयं उत्तरदायी रहूँगा।
+            </label>
+          </div>
+
+          <!-- KIOSK WALLET PIN FIELD -->
+          <div id="kiosk-pin-checkout-box" style="display:none; background:#fef3c7; border:1px solid #fde68a; border-radius:14px; padding:18px; margin: 18px 0;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+              <strong style="color:#92400e; font-size:14px;"><i class="fa-solid fa-wallet"></i> Kiosk Wallet Fast Pay:</strong>
+              <span id="kiosk-modal-wallet-disp" style="font-weight:900; color:#15803d; font-size:16px;">₹0.00</span>
+            </div>
+            <div style="display:flex; gap:10px; align-items:center;">
+              <input type="password" id="kiosk-payment-pin" class="field-control" maxlength="4" placeholder="Enter 4-Digit Security PIN" style="letter-spacing:5px; font-weight:900; background:#fff; text-align:center;" />
+            </div>
+            <span style="font-size:12px; color:#b45309; display:block; margin-top:6px;">पिन डालते ही वॉलेट से फीस कटेगी और कमीशन तुरंत जुड़ेगा!</span>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:26px; flex-wrap:wrap; gap:14px;">
+            <div>
+              <span style="font-size:12.5px; color:var(--text-muted);">Total Payable:</span>
+              <strong style="font-size:22px; color:var(--primary); display:block;" id="upload-payable-amt">₹0</strong>
+            </div>
+            <button type="submit" class="btn-glow" id="btn-submit-upload">
+              <span id="btn-submit-text">Proceed & Pay with Razorpay</span> <i class="fa-solid fa-shield-check"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================== VIEW 5: LIVE TRACKER & PRINTABLE SLIP ==================== -->
+  <main id="view-track" class="view-page">
+    <div class="main-container">
+      <div style="text-align:center; margin-bottom:30px;">
+        <h2 style="font-size: 28px; font-weight: 900;">Live Status & Official Acknowledgement Slip</h2>
+        <p style="color:var(--text-muted); font-size:14.5px;">अपनी Reference ID या रजिस्टर्ड 10-अंकीय मोबाइल नंबर दर्ज करें</p>
+      </div>
+
+      <div style="max-width: 520px; margin: 0 auto 32px; display: flex; gap: 10px;">
+        <input type="text" id="track-search-input" class="field-control" placeholder="उदा: JSK-2026-102938 या मोबाइल नंबर" style="font-weight:700;" />
+        <button class="btn-glow" onclick="performTracking()"><i class="fa-solid fa-search"></i></button>
+      </div>
+
+      <div id="track-result-render"></div>
+    </div>
+  </main>
+
+  <!-- ==================== VIEW 6: MASTER ADMIN DASHBOARD ==================== -->
+  <main id="view-admin-dash" class="view-page">
+    <div class="main-container">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; flex-wrap:wrap; gap:14px;">
+        <div>
+          <div style="display:flex; align-items:center; gap:10px;">
+            <h2 style="font-size:26px; font-weight:900;"><i class="fa-solid fa-sliders" style="color:var(--primary);"></i> Master Admin Dashboard</h2>
+            <span style="background:#dcfce7; color:#15803d; font-size:11.5px; font-weight:800; padding:4px 10px; border-radius:100px;">FIREBASE LIVE CLOUD</span>
+          </div>
+          <p style="color:var(--text-muted); font-size:13.5px; margin-top:2px;">नागरिक व Kiosk आईडी नियंत्रण, लाइव ऑर्डर्स, सर्टिफिकेट डिलीवरी व Payouts</p>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <button class="nav-link-btn" style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;" onclick="openCategoryManagerModal()">
+            <i class="fa-solid fa-layer-group"></i> Categories
+          </button>
+          <button class="nav-link-btn" style="background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;" onclick="openAddServiceModal()">
+            <i class="fa-solid fa-circle-plus"></i> + नई सेवा
+          </button>
+          <button class="nav-link-btn" style="background:#fef3c7; color:#b45309; border:1px solid #fde68a;" onclick="openUsersDirectoryModal()">
+            <i class="fa-solid fa-user-lock"></i> Users & Locks
+          </button>
+          <button class="nav-link-btn" style="background:#dcfce7; color:#15803d; border:1px solid #bbf7d0;" onclick="openWithdrawalsManagerModal()">
+            <i class="fa-solid fa-money-bill-transfer"></i> Payouts (<span id="admin-pending-wth-count">0</span>)
+          </button>
+          <button class="nav-link-btn" style="background:#ecfdf5; color:#059669; border:1px solid #a7f3d0;" onclick="openPortalSettingsModal()">
+            <i class="fa-solid fa-gear"></i> Portal Settings
+          </button>
+          <button class="nav-link-btn" style="color:#ef4444; background:#fee2e2; border:1px solid #fecaca;" onclick="handleAdminLogout()">
+            <i class="fa-solid fa-right-from-bracket"></i> Logout
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Revenue Stats -->
+      <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap:18px; margin-bottom:26px;">
+        <div style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:18px; display:flex; align-items:center; gap:14px; box-shadow:var(--shadow-premium);">
+          <div style="width:48px; height:48px; border-radius:14px; background:#ecfdf5; color:#059669; display:flex; align-items:center; justify-content:center; font-size:22px;">
+            <i class="fa-solid fa-indian-rupee-sign"></i>
+          </div>
+          <div>
+            <span style="font-size:11px; color:var(--text-muted); font-weight:800; text-transform:uppercase;">TOTAL REVENUE</span>
+            <h3 id="stat-revenue" style="font-size:22px; font-weight:900; color:#059669;">₹0</h3>
+          </div>
+        </div>
+        <div style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:18px; display:flex; align-items:center; gap:14px; box-shadow:var(--shadow-premium);">
+          <div style="width:48px; height:48px; border-radius:14px; background:#eff6ff; color:#1d4ed8; display:flex; align-items:center; justify-content:center; font-size:22px;">
+            <i class="fa-solid fa-cart-shopping"></i>
+          </div>
+          <div>
+            <span style="font-size:11px; color:var(--text-muted); font-weight:800; text-transform:uppercase;">CITIZEN ORDERS</span>
+            <h3 id="stat-citizen-orders" style="font-size:22px; font-weight:900; color:#2563eb;">0</h3>
+          </div>
+        </div>
+        <div style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:18px; display:flex; align-items:center; gap:14px; box-shadow:var(--shadow-premium);">
+          <div style="width:48px; height:48px; border-radius:14px; background:#fef3c7; color:#b45309; display:flex; align-items:center; justify-content:center; font-size:22px;">
+            <i class="fa-solid fa-store"></i>
+          </div>
+          <div>
+            <span style="font-size:11px; color:var(--text-muted); font-weight:800; text-transform:uppercase;">KIOSK ORDERS</span>
+            <h3 id="stat-kiosk-orders" style="font-size:22px; font-weight:900; color:#d97706;">0</h3>
+          </div>
+        </div>
+        <div style="background:#fff; border:1px solid var(--border-color); border-radius:var(--radius-lg); padding:18px; display:flex; align-items:center; gap:14px; box-shadow:var(--shadow-premium);">
+          <div style="width:48px; height:48px; border-radius:14px; background:#fae8ff; color:#a21caf; display:flex; align-items:center; justify-content:center; font-size:22px;">
+            <i class="fa-solid fa-coins"></i>
+          </div>
+          <div>
+            <span style="font-size:11px; color:var(--text-muted); font-weight:800; text-transform:uppercase;">TODAY'S COMMISSION</span>
+            <h3 id="stat-today-comm" style="font-size:22px; font-weight:900; color:#a21caf;">₹0</h3>
+          </div>
+        </div>
+      </div>
+
+      <!-- APPLICATIONS MASTER TABLE -->
+      <div class="admin-table-box">
+        <div style="padding:16px 22px; background:#f8fafc; border-bottom:1px solid var(--border-color); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+          <input type="text" id="admin-search-input" class="field-control" style="max-width:340px; padding:9px 16px;" placeholder="🔍 Search Applicant, Ref, Mobile..." oninput="filterAdminTable()" />
+          <button class="nav-link-btn" style="background:#ecfdf5; color:#059669; border:1px solid #a7f3d0;" onclick="exportAdminCSV()">
+            <i class="fa-solid fa-file-excel"></i> Export CSV
+          </button>
+        </div>
+        <div style="overflow-x:auto;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Ref ID & Date</th>
+                <th>Applicant</th>
+                <th>Channel</th>
+                <th>Service</th>
+                <th>Fee</th>
+                <th>Status</th>
+                <th>Certificate</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="admin-table-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================== VIEW 7: ADMIN LOGIN ==================== -->
+  <main id="view-admin-login" class="view-page">
+    <div style="max-width: 440px; margin: 40px auto; padding: 0 20px;">
+      <div style="background:#fff; border-radius:var(--radius-xl); border:1px solid var(--border-color); box-shadow:0 25px 60px rgba(15,23,42,0.1); padding:36px 28px; text-align:center;">
+        <div class="logo-badge" style="margin: 0 auto 16px; width:56px; height:56px; font-size:26px;">
+          <i class="fa-solid fa-user-shield"></i>
+        </div>
+        <h2 style="font-size:23px; font-weight:900;">Master Admin Login</h2>
+        <p style="color:var(--text-muted); font-size:13px; margin:4px 0 22px;">सुरक्षित क्लाउड ऑथेंटिकेशन</p>
+
+        <form onsubmit="handleAdminLogin(event)" autocomplete="off">
+          <div class="field-group" style="text-align:left;">
+            <label>Admin Email ID *</label>
+            <input type="email" id="admin-email" class="field-control" placeholder="Admin Email दर्ज करें" required autocomplete="off" />
+          </div>
+          <div class="field-group" style="text-align:left; margin-bottom:22px;">
+            <label>Master Password *</label>
+            <input type="password" id="admin-password" class="field-control" placeholder="••••••••" required autocomplete="new-password" />
+          </div>
+          <button type="submit" class="btn-glow" style="width:100%; justify-content:center; padding:13px;">
+            <span>Unlock Master Admin</span> <i class="fa-solid fa-arrow-right-to-bracket"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- ==================== MODAL: OFFICIAL PRINTABLE ACKNOWLEDGEMENT SLIP ==================== -->
+  <div class="modal-backdrop" id="printable-slip-modal">
+    <div class="native-modal-sheet" style="max-width: 680px;">
+      <button class="modal-close-ico no-print" onclick="closeModal('printable-slip-modal')">✕</button>
+      
+      <div id="printable-slip-area" class="receipt-print-wrapper">
+        <div class="receipt-content">
+          <!-- Slip Header -->
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #1e3a8a; padding-bottom:12px; margin-bottom:14px;">
+            <div style="display:flex; align-items:center; gap:12px;">
+              <div style="width:44px; height:44px; border-radius:10px; background:#1e3a8a; color:#fff; display:flex; align-items:center; justify-content:center; font-size:20px;">
+                <i class="fa-solid fa-landmark"></i>
+              </div>
+              <div>
+                <h3 style="font-size:18px; font-weight:900; color:#1e3a8a;">जन सेवा केंद्र (JAN SEVA KENDRA)</h3>
+                <span style="font-size:11px; color:#64748b; font-weight:700;">ई-सुविधा व डिजिटल नागरिक सेवा पावती रसीद</span>
+              </div>
+            </div>
+            <div style="text-align:right;">
+              <div id="slip-qr-container"></div>
+            </div>
+          </div>
+
+          <!-- Slip Details Grid -->
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:12px; margin-bottom:14px; font-size:12.5px;">
+            <div><strong>संदर्भ संख्या (Ref ID):</strong> <span id="slip-ref-id" style="color:#1d4ed8; font-weight:900;"></span></div>
+            <div><strong>आवेदन तिथि:</strong> <span id="slip-date"></span></div>
+            <div><strong>आवेदक का नाम:</strong> <span id="slip-cust-name"></span></div>
+            <div><strong>मोबाइल नंबर:</strong> <span id="slip-cust-mobile"></span></div>
+            <div><strong>सेवा का नाम:</strong> <span id="slip-service-name" style="font-weight:800;"></span></div>
+            <div><strong>आवेदन माध्यम:</strong> <span id="slip-channel"></span></div>
+            <div><strong>भुगतान स्थिति:</strong> <span style="color:#059669; font-weight:900;">SUCCESS (₹<span id="slip-fee"></span>)</span></div>
+            <div><strong>अनुमानित निष्पादन तिथि:</strong> <span id="slip-expected-date" style="color:#b45309; font-weight:800;"></span></div>
+          </div>
+
+          <!-- Instructions & Stamp -->
+          <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-top:20px;">
+            <div style="font-size:11px; color:#64748b; max-width:360px; line-height:1.5;">
+              * नोट: यह एक डिजिटल पावती रसीद है। आवेदन की स्थिति जानने अथवा प्रमाण पत्र डाउनलोड करने हेतु ऊपर दिए गए Reference ID का उपयोग करें।
+            </div>
+            <div style="text-align:center;">
+              <div style="width:90px; height:90px; border:2px dashed #1e3a8a; border-radius:50%; display:flex; flex-direction:column; align-items:center; justify-content:center; color:#1e3a8a; margin:0 auto 4px; font-size:9.5px; font-weight:900;">
+                <i class="fa-solid fa-stamp" style="font-size:18px; margin-bottom:2px;"></i>
+                <span>SEAL OF AUTH</span>
+                <span>VERIFIED</span>
+              </div>
+              <span style="font-size:10.5px; font-weight:800;">अधिकृत हस्ताक्षरी</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="no-print" style="display:flex; justify-content:flex-end; gap:10px; margin-top:16px;">
+        <button class="nav-link-btn" onclick="closeModal('printable-slip-modal')">बंद करें</button>
+        <button class="btn-glow" onclick="window.print()"><i class="fa-solid fa-print"></i> रसीद प्रिंट करें (Print Slip)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: VLE DAILY CASH REGISTER ==================== -->
+  <div class="modal-backdrop" id="daily-register-modal">
+    <div class="native-modal-sheet" style="max-width: 680px;">
+      <button class="modal-close-ico" onclick="closeModal('daily-register-modal')">✕</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px;">
+        <h3 style="font-size:19px; font-weight:800;"><i class="fa-solid fa-cash-register"></i> दैनिक रोकड़ बही (Daily Cash Register)</h3>
+        <strong id="daily-register-total" style="color:#059669; font-size:16px;">आज की नकद कमाई: ₹0</strong>
+      </div>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:14px;">दुकान के ऑफलाइन कार्यों (फोटोकॉपी, लैमिनेशन, AEPS नकद निकासी, फॉर्म प्रिंट) का हिसाब दर्ज करें:</p>
+
+      <form onsubmit="handleDailyRegisterAdd(event)" style="display:grid; grid-template-columns:1fr 1fr 100px auto; gap:8px; margin-bottom:16px;">
+        <input type="text" id="reg-work-title" class="field-control" placeholder="कार्य विवरण (उदा: 5 फोटोकॉपी)" required />
+        <input type="text" id="reg-cust-info" class="field-control" placeholder="ग्राहक नाम/फोन" />
+        <input type="number" id="reg-work-amt" class="field-control" placeholder="रकम ₹" required />
+        <button type="submit" class="btn-glow" style="padding:10px 18px;">+ जोड़ें</button>
+      </form>
+
+      <div id="daily-register-list" style="display:flex; flex-direction:column; gap:8px; max-height:300px; overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: CLARIFICATION / DOC RE-UPLOAD ==================== -->
+  <div class="modal-backdrop" id="reupload-doc-modal">
+    <div class="native-modal-sheet" style="max-width: 500px;">
+      <button class="modal-close-ico" onclick="closeModal('reupload-doc-modal')">✕</button>
+      <h3 style="font-size:19px; font-weight:800; margin-bottom:6px;"><i class="fa-solid fa-cloud-arrow-up"></i> त्रुटि सुधार / दस्तावेज़ री-अपलोड</h3>
+      <p style="font-size:13px; color:#b91c1c; font-weight:700; margin-bottom:14px;" id="reupload-reason-text"></p>
+
+      <form onsubmit="handleReuploadSubmit(event)">
+        <input type="hidden" id="reupload-app-id" />
+        <div class="field-group">
+          <label>स्पष्ट नया दस्तावेज़ चुनें (JPG/PNG/PDF) *</label>
+          <input type="file" id="reupload-file-input" class="field-control" required accept=".jpg,.jpeg,.png,.pdf" />
+        </div>
+        <button type="submit" class="btn-glow" style="width:100%; justify-content:center; margin-top:12px;">अपलोड व पुनः सत्यापन हेतु भेजें</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: USERS DIRECTORY & LOCKS ==================== -->
+  <div class="modal-backdrop" id="users-directory-modal">
+    <div class="native-modal-sheet" style="max-width: 800px;">
+      <button class="modal-close-ico" onclick="closeModal('users-directory-modal')">✕</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; flex-wrap:wrap; gap:10px;">
+        <h3 style="font-size:20px; font-weight:800;"><i class="fa-solid fa-user-lock"></i> Users & Security Lock Control</h3>
+        <button class="btn-glow" style="padding:6px 14px; font-size:12px;" onclick="openCreateKioskSubModal()">+ Create Kiosk VLE ID</button>
+      </div>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">
+        यहाँ से किसी भी Citizen या Kiosk को गलत अपलोड पर तुरंत <strong>Lock</strong> या <strong>Unlock</strong> करें।
+      </p>
+
+      <div style="display:flex; gap:10px; margin-bottom:16px;">
+        <button class="nav-link-btn active" id="filter-user-tab-kiosk" onclick="renderUsersDirectory('kiosk')">Kiosk VLE Centers</button>
+        <button class="nav-link-btn" id="filter-user-tab-citizen" onclick="renderUsersDirectory('citizen')">Registered Citizens</button>
+      </div>
+
+      <div id="users-directory-render" style="display:flex; flex-direction:column; gap:10px; max-height:420px; overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: VLE ID CARD ==================== -->
+  <div class="modal-backdrop" id="vle-id-card-modal">
+    <div class="native-modal-sheet" style="max-width: 420px; text-align:center;">
+      <button class="modal-close-ico" onclick="closeModal('vle-id-card-modal')">✕</button>
+      <h3 style="font-size:19px; font-weight:800; margin-bottom:14px;">CSC VLE Official Identity Card</h3>
+
+      <div id="printable-vle-badge" class="vle-id-badge" style="border:2px solid #1e3a8a; border-radius:18px; overflow:hidden; background:#fff; margin-bottom:18px;">
+        <div style="background:linear-gradient(135deg, #1e3a8a, #0b1329); color:#fff; padding:16px 12px;">
+          <h4 style="font-size:15px; font-weight:900;">COMMON SERVICES CENTER</h4>
+          <span style="font-size:10.5px; opacity:0.85;">Ministry of Electronics & IT, Partner</span>
+        </div>
+        <div style="padding:20px 16px;">
+          <div style="width:76px; height:76px; border-radius:50%; background:#eff6ff; border:3px solid #2563eb; margin:0 auto 12px; display:flex; align-items:center; justify-content:center; font-size:36px; color:#2563eb;">
+            <i class="fa-solid fa-user-tie"></i>
+          </div>
+          <h3 id="badge-vle-name" style="font-size:17.5px; font-weight:900;">VLE Operator</h3>
+          <p id="badge-vle-center" style="font-size:13.5px; font-weight:800; color:#1d4ed8; margin:2px 0 10px;">CSC Digital Center</p>
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:10px; font-size:12px; line-height:1.7; text-align:left; margin-bottom:12px;">
+            <div><strong>Mobile:</strong> <span id="badge-vle-mobile"></span></div>
+            <div><strong>VLE ID:</strong> <span id="badge-vle-id"></span></div>
+            <div><strong>Validity:</strong> <span>Dec 2026 (Permanent)</span></div>
+            <div><strong>Status:</strong> <span style="color:#16a34a; font-weight:800;">VERIFIED ACTIVE</span></div>
+          </div>
+          <img src="https://api.qrserver.com/v1/create-qr-code/?size=90x90&data=VERIFIED_CSC_VLE_2026" alt="QR" style="border:1px solid #cbd5e1; border-radius:8px; padding:3px;" />
+        </div>
+      </div>
+
+      <button class="btn-glow" style="padding:10px 24px;" onclick="window.print()"><i class="fa-solid fa-print"></i> Print ID Badge</button>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: VLE PASSBOOK ==================== -->
+  <div class="modal-backdrop" id="vle-passbook-modal">
+    <div class="native-modal-sheet" style="max-width: 680px;">
+      <button class="modal-close-ico" onclick="closeModal('vle-passbook-modal')">✕</button>
+      <h3 style="font-size:19px; font-weight:800; margin-bottom:14px;"><i class="fa-solid fa-book"></i> VLE Wallet Ledger & Passbook</h3>
+      <div id="vle-passbook-list" style="display:flex; flex-direction:column; gap:8px; max-height:400px; overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: ADMIN REVIEW, STAGES & WHATSAPP ALERT ==================== -->
+  <div class="modal-backdrop" id="app-review-modal">
+    <div class="native-modal-sheet" style="max-width: 680px;">
+      <button class="modal-close-ico" onclick="closeModal('app-review-modal')">✕</button>
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+        <h3 style="font-size:19px; font-weight:800;">Application Review & Delivery</h3>
+        <button id="admin-notify-wa-btn" class="btn-action-pill btn-action-green" onclick="sendWhatsAppNotification()">
+          <i class="fa-brands fa-whatsapp"></i> Notify on WhatsApp
+        </button>
+      </div>
+      <p id="review-modal-ref" style="font-size:12.5px; color:var(--text-muted); margin-bottom:16px;"></p>
+
+      <div id="review-customer-summary" style="background:#f8fafc; border:1px solid var(--border-color); border-radius:12px; padding:15px; font-size:13.5px; line-height:1.8; margin-bottom:18px;"></div>
+
+      <!-- CUSTOMER UPLOADED DOCS -->
+      <div style="margin-bottom:20px;">
+        <h4 style="font-size:14px; color:#1e3a8a; margin-bottom:10px;"><i class="fa-solid fa-paperclip"></i> ग्राहक द्वारा अपलोड किए गए दस्तावेज़:</h4>
+        <div id="review-docs-list" style="display:flex; flex-direction:column; gap:8px;"></div>
+      </div>
+
+      <!-- CERTIFICATE UPLOAD SECTION -->
+      <div style="background:#f0fdf4; border:1.5px dashed #86efac; border-radius:14px; padding:18px; margin-bottom:20px;">
+        <strong style="color:#15803d; font-size:14.5px; display:block; margin-bottom:6px;">
+          <i class="fa-solid fa-file-circle-check"></i> फाइनल प्रमाण पत्र / PDF अपलोड करें (Deliver Certificate)
+        </strong>
+        <p style="font-size:12.5px; color:#166534; margin-bottom:12px;">यहाँ तैयार प्रमाण पत्र अपलोड करें। यह सीधे ग्राहक के खाते में डाउनलोड हेतु उपलब्ध हो जाएगा।</p>
+        
+        <input type="file" id="admin-certificate-file" class="field-control" accept=".pdf,.jpg,.jpeg,.png" onchange="handleAdminCertificateUpload(this)" />
+        <div id="uploaded-certificate-disp" style="margin-top:8px; font-size:13px; font-weight:800; color:#059669;"></div>
+      </div>
+
+      <form onsubmit="saveAppStatusUpdate(event)">
+        <input type="hidden" id="review-app-id" />
+        <div class="field-group">
+          <label>Update Status</label>
+          <select id="review-status-select" class="field-control">
+            <option value="Pending">🟡 Pending (प्रतीक्षारत)</option>
+            <option value="In Progress">🔵 In Progress (प्रक्रिया जारी है)</option>
+            <option value="Clarification Needed">🟣 Clarification / Re-upload Needed (दस्तावेज़ सुधार)</option>
+            <option value="Approved">🟢 Approved (स्वीकृत व तैयार)</option>
+            <option value="Rejected">🔴 Rejected (अस्वीकृत)</option>
+          </select>
+        </div>
+        <div class="field-group" style="margin-bottom:20px;">
+          <label>वर्तमान स्थिति / सरकारी Reference / Stage Remarks</label>
+          <input type="text" id="review-remarks" class="field-control" placeholder="उदा: RTPS पोर्टल पर आवेदन संख्या BR/2026/XXXX दर्ज हुआ..." />
+        </div>
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <button type="button" class="btn-action-pill btn-action-red" onclick="deleteCurrentApplication()"><i class="fa-solid fa-trash"></i> Delete</button>
+          <button type="submit" class="btn-glow" style="padding:10px 24px;">सेव व अपडेट करें</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: ONE-TIME KIOSK PIN SETUP ==================== -->
+  <div class="modal-backdrop" id="kiosk-first-pin-modal">
+    <div class="native-modal-sheet" style="max-width: 440px; text-align:center;">
+      <div class="logo-badge" style="margin: 0 auto 14px; width:54px; height:54px; font-size:24px; background:linear-gradient(135deg, #f59e0b, #ea580c);"><i class="fa-solid fa-key"></i></div>
+      <h3 style="font-size:21px; font-weight:900; margin-bottom:6px;">सुरक्षा पिन सेट करें (One-Time Setup)</h3>
+      <p style="font-size:13.5px; color:var(--text-muted); margin-bottom:20px;">
+        Kiosk सुरक्षा हेतु अपना <strong>4-अंकों का गुप्त PIN</strong> बनाएं।
+      </p>
+
+      <form onsubmit="handleSaveFirstTimeKioskPin(event)">
+        <div class="field-group" style="text-align:left; margin-bottom:16px;">
+          <label>4-अंकों का PIN बनाएं *</label>
+          <input type="password" id="first-pin-val" class="field-control" maxlength="4" placeholder="••••" style="text-align:center; letter-spacing:6px; font-size:22px; font-weight:900;" required />
+        </div>
+        <div class="field-group" style="text-align:left; margin-bottom:22px;">
+          <label>PIN पुनः दर्ज करें *</label>
+          <input type="password" id="first-pin-conf" class="field-control" maxlength="4" placeholder="••••" style="text-align:center; letter-spacing:6px; font-size:22px; font-weight:900;" required />
+        </div>
+        <button type="submit" class="btn-glow" style="width:100%; justify-content:center; padding:13px;">
+          <span>PIN सुरक्षित करें व पोर्टल खोलें</span> <i class="fa-solid fa-shield-check"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: AUTHENTICATION (NO OTP, INSTANT DIRECT LOGIN) ==================== -->
+  <div class="modal-backdrop" id="user-auth-modal">
+    <div class="native-modal-sheet" style="max-width:440px;">
+      <button class="modal-close-ico" onclick="closeModal('user-auth-modal')">✕</button>
+      
+      <div style="text-align:center; margin-bottom:18px;">
+        <h3 id="auth-modal-title" style="font-size:21px; font-weight:900;">Citizen Login</h3>
+        <p style="font-size:13px; color:var(--text-muted); margin-top:2px;">बिना किसी OTP के मोबाइल और पासवर्ड से तुरंत लॉगिन</p>
+      </div>
+
+      <div style="display:flex; background:#f1f5f9; padding:4px; border-radius:14px; margin-bottom:18px;">
+        <button type="button" class="nav-link-btn active" id="tab-auth-citizen" style="flex:1; justify-content:center;" onclick="switchAuthTab('citizen')">
+          Citizen (नागरिक)
+        </button>
+        <button type="button" class="nav-link-btn" id="tab-auth-kiosk" style="flex:1; justify-content:center;" onclick="switchAuthTab('kiosk')">
+          CSC Kiosk (VLE)
+        </button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="universal-login-form" onsubmit="handleUniversalLogin(event)">
+        <div class="field-group">
+          <label>Registered Mobile Number *</label>
+          <input type="tel" id="login-mobile" maxlength="10" class="field-control" placeholder="10 अंकों का मोबाइल नंबर" required />
+        </div>
+        <div class="field-group" style="margin-bottom:20px;">
+          <label>Password *</label>
+          <input type="password" id="login-pass" class="field-control" placeholder="••••••••" required />
+        </div>
+
+        <button type="submit" class="btn-glow" style="width:100%; justify-content:center; margin-bottom:14px;">
+          <span>सीधा लॉगिन करें</span> <i class="fa-solid fa-arrow-right-to-bracket"></i>
+        </button>
+        
+        <div id="citizen-reg-prompt-box">
+          <button type="button" class="nav-link-btn" style="width:100%; justify-content:center; border:1px solid var(--border-color);" onclick="showCitizenRegisterScreen()">
+            नया नागरिक खाता बनाएं (Register New ID)
+          </button>
+        </div>
+      </form>
+
+      <!-- CITIZEN REGISTER FORM -->
+      <form id="citizen-register-form" style="display:none;" onsubmit="handleCitizenRegistration(event)">
+        <div class="field-group">
+          <label>Full Name (पूरा नाम) *</label>
+          <input type="text" id="reg-name" class="field-control" placeholder="उदा: राकेश कुमार" required />
+        </div>
+        <div class="field-group">
+          <label>10-Digit Mobile Number (स्थायी मोबाइल) *</label>
+          <input type="tel" id="reg-mobile" maxlength="10" class="field-control" placeholder="10 अंकों का मोबाइल" required />
+          <span style="font-size:11px; color:#2563eb;">* एक नंबर से केवल एक आईडी। नो-ओटीपी त्वरित सक्रियता।</span>
+        </div>
+        <div class="field-group">
+          <label>Create Password *</label>
+          <input type="password" id="reg-pass" class="field-control" placeholder="नया पासवर्ड बनाएं" required />
+        </div>
+        <button type="submit" class="btn-glow" style="width:100%; justify-content:center; margin-top:8px; margin-bottom:12px;">
+          <span>खाता बनाएं व लॉगिन करें</span> <i class="fa-solid fa-user-plus"></i>
+        </button>
+        <button type="button" class="nav-link-btn" style="width:100%; justify-content:center;" onclick="showCitizenLoginScreen()">
+          पहले से खाता है? लॉगिन करें
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- OTHER MODALS (Categories, Services, Top-Up, Settings) -->
+  <div class="modal-backdrop" id="category-manager-modal">
+    <div class="native-modal-sheet" style="max-width:500px;">
+      <button class="modal-close-ico" onclick="closeModal('category-manager-modal')">✕</button>
+      <h3 style="font-size:19px; font-weight:800; margin-bottom:14px;"><i class="fa-solid fa-layer-group"></i> Category Manager</h3>
+      <div style="display:flex; gap:10px; margin-bottom:18px;">
+        <input type="text" id="new-cat-name" class="field-control" placeholder="Category Name" />
+        <button class="btn-glow" style="padding:10px 20px;" onclick="addNewCategory()">+ Add</button>
+      </div>
+      <div id="categories-list-render" style="display:flex; flex-direction:column; gap:8px;"></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="service-editor-modal">
+    <div class="native-modal-sheet">
+      <button class="modal-close-ico" onclick="closeModal('service-editor-modal')">✕</button>
+      <h3 id="svc-modal-title" style="font-size:19px; font-weight:800; margin-bottom:18px;">सेवा, फीस व कमीशन जोड़ें</h3>
+      <form onsubmit="saveServiceDetails(event)">
+        <input type="hidden" id="edit-service-id" />
+        <div class="field-group">
+          <label>Service Name *</label>
+          <input type="text" id="edit-svc-name" class="field-control" required />
+        </div>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:12px;">
+          <div class="field-group">
+            <label>Category *</label>
+            <select id="edit-svc-cat" class="field-control"></select>
+          </div>
+          <div class="field-group">
+            <label>Citizen Fee (₹) *</label>
+            <input type="number" id="edit-svc-citizen-price" class="field-control" required />
+          </div>
+          <div class="field-group">
+            <label>Kiosk VLE Fee (₹) *</label>
+            <input type="number" id="edit-svc-kiosk-price" class="field-control" required />
+          </div>
+          <div class="field-group">
+            <label>Kiosk Commission (₹) *</label>
+            <input type="number" id="edit-svc-commission" class="field-control" required />
+          </div>
+        </div>
+        <div class="field-group">
+          <label>Service Description</label>
+          <input type="text" id="edit-svc-desc" class="field-control" />
+        </div>
+        <button type="submit" class="btn-glow" style="width:100%; justify-content:center; margin-top:10px;">सुरक्षित करें (Save)</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="withdrawals-manager-modal">
+    <div class="native-modal-sheet" style="max-width: 660px;">
+      <button class="modal-close-ico" onclick="closeModal('withdrawals-manager-modal')">✕</button>
+      <h3 style="font-size:19px; font-weight:800; margin-bottom:16px;"><i class="fa-solid fa-money-bill-transfer"></i> VLE Commission Payouts</h3>
+      <div id="withdrawals-list-render" style="display:flex; flex-direction:column; gap:8px; max-height:360px; overflow-y:auto;"></div>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="kiosk-deposit-modal">
+    <div class="native-modal-sheet" style="max-width: 440px; text-align:center;">
+      <button class="modal-close-ico" onclick="closeModal('kiosk-deposit-modal')">✕</button>
+      <div class="logo-badge" style="margin: 0 auto 12px; width:52px; height:52px; font-size:22px;"><i class="fa-solid fa-wallet"></i></div>
+      <h3 style="font-size:20px; font-weight:800; margin-bottom:6px;">Top-Up Kiosk Wallet</h3>
+      <p style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">Razorpay डिजिटल गेटवे से तुरंत वॉलेट बैलेंस जोड़ें</p>
+      <form onsubmit="handleKioskRazorpayDeposit(event)">
+        <div class="field-group" style="text-align:left; margin-bottom:18px;">
+          <label>Deposit Amount (₹) *</label>
+          <input type="number" id="deposit-amount" class="field-control" min="50" placeholder="उदा: 500" required />
+        </div>
+        <button type="submit" class="btn-glow" style="width:100%; justify-content:center; padding:13px;">
+          <span>Pay with Razorpay</span> <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="kiosk-withdraw-modal">
+    <div class="native-modal-sheet" style="max-width: 440px;">
+      <button class="modal-close-ico" onclick="closeModal('kiosk-withdraw-modal')">✕</button>
+      <div style="text-align:center; margin-bottom:16px;">
+        <h3 style="font-size:20px; font-weight:800;">Withdraw Commission</h3>
+        <div style="margin-top:8px; font-size:13.5px;">उपलब्ध कमीशन: <strong id="wth-available-bal" style="color:#059669; font-size:19px;">₹0</strong></div>
+      </div>
+      <form onsubmit="handleKioskWithdrawSubmit(event)">
+        <div class="field-group"><label>Withdraw Amount (₹) *</label><input type="number" id="wth-amount" class="field-control" required /></div>
+        <div class="field-group"><label>UPI ID or Bank Details *</label><input type="text" id="wth-upi" class="field-control" required /></div>
+        <button type="submit" class="btn-glow" style="width:100%; justify-content:center; margin-top:10px;">Submit Payout Request</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop" id="portal-settings-modal">
+    <div class="native-modal-sheet" style="max-width:520px;">
+      <button class="modal-close-ico" onclick="closeModal('portal-settings-modal')">✕</button>
+      <h3 style="font-size:19px; font-weight:800; margin-bottom:14px;"><i class="fa-solid fa-sliders"></i> Portal & Razorpay Settings</h3>
+      <form onsubmit="savePortalSettings(event)">
+        <div class="field-group"><label>Notice Ticker *</label><input type="text" id="set-ticker-text" class="field-control" required /></div>
+        <div class="field-group"><label>Razorpay Key ID *</label><input type="text" id="set-rzp-key" class="field-control" placeholder="rzp_live_xxxxxxxxxxxx" required /></div>
+        <div class="field-group"><label>Merchant Business Name *</label><input type="text" id="set-merchant-name" class="field-control" required /></div>
+        <div class="field-group"><label>Min Commission Withdrawal (₹)</label><input type="number" id="set-min-withdrawal" class="field-control" value="200" required /></div>
+        <button type="submit" class="btn-glow" style="width:100%; justify-content:center; margin-top:8px;">सुरक्षित करें</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- NATIVE TOAST -->
+  <div id="native-toast"><i class="fa-solid fa-circle-check" style="color:#10b981;"></i> <span id="toast-text">Message</span></div>
+
+  <!-- APPLICATION ENGINE JAVASCRIPT -->
+  <script>
+    /* 1. FIREBASE INITIALIZATION & SYNC ENGINE */
+    const firebaseConfig = {
+      apiKey: "AIzaSyDT4TplorNjYYmEWUTrNSUsgABnKCMHa8s",
+      authDomain: "tcvyttref5.firebaseapp.com",
+      databaseURL: "https://tcvyttref5-default-rtdb.firebaseio.com",
+      projectId: "tcvyttref5",
+      storageBucket: "tcvyttref5.firebasestorage.app",
+      messagingSenderId: "169066286356",
+      appId: "1:169066286356:web:5a5c6350efb7bf1e470601"
+    };
+
+    let isFirebaseReady = false;
+    let db = null;
+    let storage = null;
+
+    try {
+      if (typeof firebase !== 'undefined' && firebase.initializeApp) {
+        const app = firebase.initializeApp(firebaseConfig);
+        db = firebase.database();
+        if (firebase.storage) storage = firebase.storage();
+        isFirebaseReady = true;
+        console.log("Firebase Cloud Realtime Engine Connected Successfully.");
+      }
+    } catch(e) {
+      console.warn("Firebase local fallback active:", e);
+    }
+
+    /* Master Admin Config */
+    let MASTER_ADMIN = {
+      email: "akmalopp78@gmail.com",
+      password: "aA1@akmal"
+    };
+
+    let portalSettings = JSON.parse(localStorage.getItem("portal_settings_v6") || JSON.stringify({
+      ticker: "🔴 2026 आधिकारिक क्लाउड पोर्टल: जाति, आय, निवास, राशन, नया वोटर, ई-श्रम, पैन व जमीन रसीद सेवाएँ लाइव हैं। Firebase Cloud Sync सक्रिय है।",
+      minWithdrawal: 200,
+      rzpKey: "rzp_test_YourRazorpayKeyHere",
+      merchantName: "JAN SEVA KENDRA 2026"
+    }));
+
+    const defaultCategories = [
+      { id: "all", name: "All Services (सभी)" },
+      { id: "rtps", name: "RTPS (जाति/निवास/आय)" },
+      { id: "voter", name: "वोटर कार्ड सेवाएँ" },
+      { id: "pan", name: "पैन कार्ड सेवा" },
+      { id: "yojana", name: "ई-श्रम व कल्याण योजनाएं" },
+      { id: "revenue", name: "जमीन रसीद व राजस्व" },
+      { id: "passport", name: "पासपोर्ट सेवा" }
+    ];
+
+    let categories = JSON.parse(localStorage.getItem("portal_categories_v6") || JSON.stringify(defaultCategories));
+
+    const defaultServices = [
+      {
+        id: "jaati",
+        name: "जाति प्रमाण पत्र (Caste Certificate)",
+        category: "rtps",
+        citizenPrice: 80,
+        kioskPrice: 40,
+        commission: 20,
+        icon: "fa-solid fa-stamp",
+        desc: "बिहार व केंद्र सरकार हेतु जाति प्रमाण पत्र ऑनलाइन सहायता।",
+        docsRequired: ["आधार कार्ड (Aadhaar Card)", "केवाला / जमीन रसीद"]
+      },
+      {
+        id: "awasiya",
+        name: "निवास / आवासीय प्रमाण पत्र (Residential)",
+        category: "rtps",
+        citizenPrice: 80,
+        kioskPrice: 40,
+        commission: 20,
+        icon: "fa-solid fa-house-user",
+        desc: "स्थायी निवास व आवासीय प्रमाण पत्र ऑनलाइन वेरिफिकेशन।",
+        docsRequired: ["आधार कार्ड (Aadhaar Card)", "केवाला / जमीन रसीद"]
+      },
+      {
+        id: "aay",
+        name: "आय प्रमाण पत्र (Income Certificate)",
+        category: "rtps",
+        citizenPrice: 80,
+        kioskPrice: 40,
+        commission: 20,
+        icon: "fa-solid fa-file-invoice-dollar",
+        desc: "सरकारी नौकरी, स्कॉलरशिप व योजनाओं हेतु आय प्रमाण पत्र।",
+        docsRequired: ["आधार कार्ड (Aadhaar Card)", "वेतन पर्ची / जमीन रसीद"]
+      },
+      {
+        id: "voter_new",
+        name: "नया वोटर कार्ड (Form-6 New Voter)",
+        category: "voter",
+        citizenPrice: 100,
+        kioskPrice: 50,
+        commission: 25,
+        icon: "fa-solid fa-address-card",
+        desc: "नया वोटर आईडी कार्ड ऑनलाइन आवेदन व सुधार।",
+        docsRequired: ["आधार कार्ड", "माता/पिता का वोटर कार्ड", "पासपोर्ट फोटो"]
+      },
+      {
+        id: "pan_card",
+        name: "नया पैन कार्ड / सुधार (PAN Card UTI/NSDL)",
+        category: "pan",
+        citizenPrice: 150,
+        kioskPrice: 110,
+        commission: 30,
+        icon: "fa-solid fa-id-card-clip",
+        desc: "नया डिजिटल व फिजिकल पैन कार्ड आवेदन अथवा सुधार।",
+        docsRequired: ["आधार कार्ड", "हस्ताक्षर (Signature)", "पासपोर्ट फोटो"]
+      },
+      {
+        id: "eshram",
+        name: "ई-श्रम कार्ड (E-Shram Online)",
+        category: "yojana",
+        citizenPrice: 50,
+        kioskPrice: 20,
+        commission: 15,
+        icon: "fa-solid fa-helmet-safety",
+        desc: "असंगठित कामगारों हेतु भारत सरकार ई-श्रम कार्ड निर्माण।",
+        docsRequired: ["आधार कार्ड", "बैंक पासबुक प्रति"]
+      },
+      {
+        id: "jameen_rasid",
+        name: "जमीन लगान रसीद / दाखिल खारिज (LPC/Mutation)",
+        category: "revenue",
+        citizenPrice: 120,
+        kioskPrice: 60,
+        commission: 30,
+        icon: "fa-solid fa-file-contract",
+        desc: "ऑनलाइन भू-लगान भुगतान एवं दाखिल खारिज आवेदन।",
+        docsRequired: ["जमाबंदी / पुराना केवाला प्रति", "आधार कार्ड"]
+      },
+      {
+        id: "passport",
+        name: "पासपोर्ट सेवा (New Passport Online)",
+        category: "passport",
+        citizenPrice: 350,
+        kioskPrice: 200,
+        commission: 50,
+        icon: "fa-solid fa-passport",
+        desc: "नया भारतीय पासपोर्ट ऑनलाइन आवेदन व स्लॉट सहायता।",
+        docsRequired: ["आधार कार्ड", "पैन कार्ड", "10वीं मार्कशीट"]
+      }
+    ];
+
+    let services = JSON.parse(localStorage.getItem("portal_services_v6") || JSON.stringify(defaultServices));
+    let allApplications = JSON.parse(localStorage.getItem("portal_apps_v6") || "[]");
+    let allKiosks = JSON.parse(localStorage.getItem("portal_kiosks_v6") || "[]");
+    let allCitizens = JSON.parse(localStorage.getItem("portal_citizens_v6") || "[]");
+    let allWithdrawals = JSON.parse(localStorage.getItem("portal_withdrawals_v6") || "[]");
+    let vlePassbookLedger = JSON.parse(localStorage.getItem("portal_vle_passbook_v6") || "[]");
+    let dailyRegisters = JSON.parse(localStorage.getItem("portal_daily_register_v6") || "[]");
+    let currentAuthSession = JSON.parse(localStorage.getItem("portal_current_session_v6") || "null");
+
+    let currentSelectedService = null;
+    let selectedActiveApp = null;
+    let tempCertificateBase64 = null;
+    let currentActiveCategory = "all";
+
+    /* 2. LIVE FIREBASE REALTIME LISTENERS */
+    window.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("live-ticker-text").innerText = portalSettings.ticker;
+      updateNavbarSessionUI();
+
+      if (isFirebaseReady && db) {
+        // Sync Applications in Realtime
+        db.ref('applications').on('value', snapshot => {
+          const data = snapshot.val();
+          if (data) {
+            allApplications = Object.values(data);
+            localStorage.setItem("portal_apps_v6", JSON.stringify(allApplications));
+            if (currentAuthSession && currentAuthSession.role === 'citizen') renderCitizenDashboard();
+            if (currentAuthSession && currentAuthSession.role === 'kiosk') renderKioskPortal();
+            if (sessionStorage.getItem("admin_session_active_v6") === "yes") refreshAdminStats();
+          }
+        });
+
+        // Sync Kiosks in Realtime
+        db.ref('kiosks').on('value', snapshot => {
+          const data = snapshot.val();
+          if (data) {
+            allKiosks = Object.values(data);
+            localStorage.setItem("portal_kiosks_v6", JSON.stringify(allKiosks));
+          }
+        });
+
+        // Sync Citizens in Realtime
+        db.ref('citizens').on('value', snapshot => {
+          const data = snapshot.val();
+          if (data) {
+            allCitizens = Object.values(data);
+            localStorage.setItem("portal_citizens_v6", JSON.stringify(allCitizens));
+          }
+        });
+
+        // Sync Settings
+        db.ref('portal_settings').on('value', snapshot => {
+          const data = snapshot.val();
+          if (data) {
+            portalSettings = data;
+            localStorage.setItem("portal_settings_v6", JSON.stringify(portalSettings));
+            document.getElementById("live-ticker-text").innerText = portalSettings.ticker || "";
+          }
+        });
+      }
+    });
+
+    /* 3. INBUILT IMAGE COMPRESSION ENGINE (< 200KB) */
+    function compressImageFile(file, maxWidth = 1200, quality = 0.7) {
+      return new Promise((resolve) => {
+        if (!file.type.startsWith("image/")) {
+          // If PDF or non-image, read directly
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.readAsDataURL(file);
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          const img = new Image();
+          img.onload = () => {
+            const canvas = document.createElement("canvas");
+            let w = img.width;
+            let h = img.height;
+            if (w > maxWidth) {
+              h = (h * maxWidth) / w;
+              w = maxWidth;
+            }
+            canvas.width = w;
+            canvas.height = h;
+            const ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, w, h);
+            resolve(canvas.toDataURL("image/jpeg", quality));
+          };
+          img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    /* 4. ROUTING & TAB NAVIGATION */
+    function switchTab(viewId) {
+      document.querySelectorAll(".view-page").forEach(v => v.classList.remove("active"));
+      document.querySelectorAll(".bar-item, .nav-link-btn").forEach(b => b.classList.remove("active"));
+
+      const target = document.getElementById(`view-${viewId}`);
+      if (target) {
+        target.classList.add("active");
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      document.getElementById(`mob-${viewId}`)?.classList.add("active");
+      document.getElementById(`desk-${viewId}`)?.classList.add("active");
+    }
+
+    function accessCitizenPortal() {
+      if (currentAuthSession && currentAuthSession.role === "citizen") {
+        renderCitizenDashboard();
+        switchTab("citizen-portal");
+      } else {
+        openAuthModal("citizen");
+      }
+    }
+
+    function accessKioskPortal() {
+      if (currentAuthSession && currentAuthSession.role === "kiosk") {
+        renderKioskPortal();
+        switchTab("kiosk-portal");
+      } else {
+        openAuthModal("kiosk");
+      }
+    }
+
+    function handleMobileUserClick() {
+      if (!currentAuthSession) {
+        openAuthModal("citizen");
+      } else if (currentAuthSession.role === "citizen") {
+        renderCitizenDashboard();
+        switchTab("citizen-portal");
+      } else if (currentAuthSession.role === "kiosk") {
+        accessKioskPortal();
+      }
+    }
+
+    function returnToActivePortal() {
+      if (currentAuthSession && currentAuthSession.role === "kiosk") {
+        switchTab("kiosk-portal");
+      } else {
+        switchTab("citizen-portal");
+      }
+    }
+
+    /* 5. CITIZEN DASHBOARD */
+    function renderCitizenDashboard() {
+      if (!currentAuthSession || currentAuthSession.role !== "citizen") return;
+
+      const freshCitizen = allCitizens.find(c => c.mobile === currentAuthSession.mobile);
+      if (freshCitizen && freshCitizen.locked) {
+        document.getElementById("citizen-emergency-lock-banner").style.display = "block";
+        document.getElementById("citizen-active-content").style.display = "none";
+        document.getElementById("citizen-lock-reason-text").innerText = freshCitizen.lockReason || "अमान्य दस्तावेज़ों के चलते खाता फ्रीज है।";
+        return;
+      } else {
+        document.getElementById("citizen-emergency-lock-banner").style.display = "none";
+        document.getElementById("citizen-active-content").style.display = "block";
+      }
+
+      document.getElementById("citizen-name-disp").innerText = `नमस्ते, ${currentAuthSession.name}`;
+      const myApps = allApplications.filter(a => a.mobile === currentAuthSession.mobile || a.appliedByMobile === currentAuthSession.mobile);
+      const tbody = document.getElementById("citizen-apps-body");
+
+      if (myApps.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:28px; color:var(--text-muted);">आपने अभी कोई आवेदन नहीं किया है। नीचे से सेवा चुनें।</td></tr>`;
+      } else {
+        tbody.innerHTML = myApps.map(a => `
+          <tr>
+            <td><strong style="color:var(--primary); font-size:14px;">${a.trackingId}</strong></td>
+            <td><strong>${escapeHtml(a.serviceName)}</strong></td>
+            <td>${a.formattedDate}</td>
+            <td><span class="status-badge ${getStatusBadgeClass(a.status)}">${a.status}</span></td>
+            <td>
+              ${a.status === 'Clarification Needed' ? `
+                <button class="btn-action-pill btn-action-purple" onclick="openReuploadModal('${a.trackingId}')">
+                  <i class="fa-solid fa-cloud-arrow-up"></i> सुधारें (Re-upload)
+                </button>
+              ` : `<span style="color:#047857; font-weight:700;">${escapeHtml(a.adminRemarks || 'प्रक्रियाधीन')}</span>`}
+            </td>
+            <td>
+              ${a.finalCertificate ? `
+                <button class="btn-action-pill btn-action-green" onclick="downloadCertificate('${a.trackingId}')">
+                  <i class="fa-solid fa-file-arrow-down"></i> डाउनलोड PDF
+                </button>
+              ` : `<span style="font-size:12px; color:#94a3b8;"><i class="fa-solid fa-clock"></i> तैयारी जारी है</span>`}
+            </td>
+            <td>
+              <button class="btn-action-pill btn-action-blue" onclick="openPrintableSlipModal('${a.trackingId}')">
+                <i class="fa-solid fa-receipt"></i> पावती रसीद
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      renderPortalServicesGrid("citizen");
+    }
+
+    function scrollToCitizenServices() {
+      document.getElementById("citizen-services-section")?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    /* 6. KIOSK VLE DASHBOARD & POWER TOOLS */
+    function renderKioskPortal() {
+      if (!currentAuthSession || currentAuthSession.role !== "kiosk") return;
+
+      const freshKiosk = allKiosks.find(k => k.mobile === currentAuthSession.mobile);
+      if (freshKiosk && freshKiosk.locked) {
+        document.getElementById("kiosk-emergency-lock-banner").style.display = "block";
+        document.getElementById("kiosk-active-content").style.display = "none";
+        document.getElementById("kiosk-lock-reason-text").innerText = freshKiosk.lockReason || "प्रशासनिक कारणों से यह Kiosk आईडी लॉक है।";
+        return;
+      } else {
+        document.getElementById("kiosk-emergency-lock-banner").style.display = "none";
+        document.getElementById("kiosk-active-content").style.display = "block";
+      }
+
+      if (!currentAuthSession.pin || currentAuthSession.pin === "" || !currentAuthSession.pinSet) {
+        document.getElementById("kiosk-first-pin-modal").classList.add("active");
+      }
+
+      const todayStr = getTodayDateString();
+      const myApps = allApplications.filter(a => a.appliedByMobile === currentAuthSession.mobile);
+      const todayCommission = myApps
+        .filter(a => a.rawDate === todayStr)
+        .reduce((sum, a) => sum + (Number(a.commission) || 0), 0);
+
+      const totalCount = myApps.length;
+      let levelText = "⭐ Silver VLE";
+      if (totalCount >= 50) levelText = "🏆 Platinum VLE";
+      else if (totalCount >= 20) levelText = "🥇 Gold VLE";
+
+      document.getElementById("kiosk-level-badge").innerText = levelText;
+      document.getElementById("kiosk-today-comm-chip").innerText = `आज: ₹${todayCommission.toFixed(2)}`;
+      document.getElementById("kiosk-center-title").innerText = currentAuthSession.centerName;
+      document.getElementById("kiosk-operator-name").innerText = `Operator: ${currentAuthSession.name} (${currentAuthSession.mobile})`;
+      document.getElementById("kiosk-wallet-bal").innerText = `₹${(currentAuthSession.walletBalance || 0).toFixed(2)}`;
+      document.getElementById("kiosk-comm-bal").innerText = `₹${(currentAuthSession.commissionEarned || 0).toFixed(2)}`;
+      document.getElementById("kiosk-pin-status").innerText = "PIN: Active 🔒";
+
+      const tbody = document.getElementById("kiosk-my-apps-body");
+      if (myApps.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align:center; padding:28px; color:var(--text-muted);">केंद्र द्वारा अभी कोई आवेदन नहीं हुआ है।</td></tr>`;
+      } else {
+        tbody.innerHTML = myApps.map(a => `
+          <tr>
+            <td><strong style="color:var(--primary);">${a.trackingId}</strong></td>
+            <td>${escapeHtml(a.name)}<div style="font-size:11px; color:#64748b;">${a.mobile}</div></td>
+            <td>${escapeHtml(a.serviceName)}</td>
+            <td><strong style="color:#ef4444;">₹${a.price}</strong></td>
+            <td><strong style="color:#059669;">+₹${a.commission || 0}</strong></td>
+            <td><span class="status-badge ${getStatusBadgeClass(a.status)}">${a.status}</span></td>
+            <td>
+              ${a.finalCertificate ? `
+                <button class="btn-action-pill btn-action-green" onclick="downloadCertificate('${a.trackingId}')">
+                  <i class="fa-solid fa-download"></i> PDF
+                </button>
+              ` : '<span style="font-size:12px; color:#94a3b8;">Pending</span>'}
+            </td>
+            <td>
+              <button class="btn-action-pill btn-action-blue" onclick="openPrintableSlipModal('${a.trackingId}')">
+                <i class="fa-solid fa-receipt"></i> Official Slip
+              </button>
+            </td>
+          </tr>
+        `).join('');
+      }
+
+      renderPortalServicesGrid("kiosk");
+    }
+
+    function scrollToKioskServices() {
+      document.getElementById("kiosk-services-section")?.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function performKioskGlobalSearch() {
+      const q = document.getElementById("kiosk-global-search-input").value.trim().toUpperCase();
+      const resContainer = document.getElementById("kiosk-global-search-result");
+      if (!q) return showToast("कृपया ID या मोबाइल दर्ज करें!");
+
+      const found = allApplications.filter(a => a.trackingId === q || a.mobile === q);
+      if (found.length === 0) {
+        resContainer.innerHTML = `<div style="background:#fee2e2; color:#b91c1c; padding:12px; border-radius:12px; font-size:13px;">कोई रिकॉर्ड नहीं मिला।</div>`;
+        return;
+      }
+
+      resContainer.innerHTML = found.map(a => `
+        <div style="background:#f8fafc; border:1px solid #cbd5e1; border-radius:14px; padding:15px; margin-bottom:8px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+          <div>
+            <strong style="font-size:14.5px; color:var(--primary);">${a.trackingId}</strong> - <span>${escapeHtml(a.name)} (${a.mobile})</span>
+            <div style="font-size:12px; color:var(--text-muted);">${escapeHtml(a.serviceName)} | स्टेटस: <strong>${a.status}</strong></div>
+          </div>
+          <div style="display:flex; gap:8px;">
+            ${a.finalCertificate ? `
+              <button class="btn-action-pill btn-action-green" onclick="downloadCertificate('${a.trackingId}')">
+                <i class="fa-solid fa-download"></i> प्रिंट सर्टिफिकेट
+              </button>
+            ` : '<span style="font-size:12px; color:#f59e0b; font-weight:700;">सर्टिफिकेट अभी जारी नहीं</span>'}
+            <button class="btn-action-pill btn-action-blue" onclick="openPrintableSlipModal('${a.trackingId}')"><i class="fa-solid fa-receipt"></i> पावती रसीद</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    /* 7. OFFICIAL ACKNOWLEDGEMENT SLIP MODAL */
+    function openPrintableSlipModal(trackingId) {
+      const app = allApplications.find(a => a.trackingId === trackingId);
+      if (!app) return showToast("आवेदन नहीं मिला!");
+
+      document.getElementById("slip-ref-id").innerText = app.trackingId;
+      document.getElementById("slip-date").innerText = app.formattedDate;
+      document.getElementById("slip-cust-name").innerText = app.name;
+      document.getElementById("slip-cust-mobile").innerText = app.mobile;
+      document.getElementById("slip-service-name").innerText = app.serviceName;
+      document.getElementById("slip-channel").innerText = app.appliedByRole === 'kiosk' ? `Kiosk VLE: ${app.kioskCenter}` : "Direct Citizen Web Portal";
+      document.getElementById("slip-fee").innerText = app.price;
+
+      // Calculate Expected Delivery Date (+12 days)
+      const expDate = new Date();
+      expDate.setDate(expDate.getDate() + 12);
+      document.getElementById("slip-expected-date").innerText = expDate.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+      // Generate dynamic QR Code for Tracking Slip
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=70x70&data=${encodeURIComponent(app.trackingId)}`;
+      document.getElementById("slip-qr-container").innerHTML = `<img src="${qrUrl}" alt="Tracking QR" style="border:1px solid #cbd5e1; border-radius:6px; padding:2px;" />`;
+
+      document.getElementById("printable-slip-modal").classList.add("active");
+    }
+
+    /* 8. VLE DAILY CASH REGISTER */
+    function openDailyRegisterModal() {
+      renderDailyRegisterList();
+      document.getElementById("daily-register-modal").classList.add("active");
+    }
+
+    function handleDailyRegisterAdd(e) {
+      e.preventDefault();
+      const title = document.getElementById("reg-work-title").value.trim();
+      const cust = document.getElementById("reg-cust-info").value.trim();
+      const amt = Number(document.getElementById("reg-work-amt").value);
+
+      if (!title || !amt) return;
+
+      const item = {
+        id: "REG-" + Date.now(),
+        kioskMobile: currentAuthSession.mobile,
+        title,
+        cust,
+        amt,
+        date: getTodayDateString(),
+        time: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit' })
+      };
+
+      dailyRegisters.unshift(item);
+      localStorage.setItem("portal_daily_register_v6", JSON.stringify(dailyRegisters));
+      if (isFirebaseReady && db) {
+        db.ref('daily_registers/' + item.id).set(item);
+      }
+
+      document.getElementById("reg-work-title").value = "";
+      document.getElementById("reg-cust-info").value = "";
+      document.getElementById("reg-work-amt").value = "";
+
+      renderDailyRegisterList();
+      showToast("दैनिक रोकड़ बही में प्रविष्टि जोड़ी गई!");
+    }
+
+    function renderDailyRegisterList() {
+      const todayStr = getTodayDateString();
+      const list = dailyRegisters.filter(r => r.kioskMobile === currentAuthSession.mobile && r.date === todayStr);
+      const total = list.reduce((sum, r) => sum + (Number(r.amt) || 0), 0);
+
+      document.getElementById("daily-register-total").innerText = `आज की नकद कमाई: ₹${total}`;
+      const cont = document.getElementById("daily-register-list");
+
+      if (list.length === 0) {
+        cont.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;">आज अभी कोई रोकड़ प्रविष्टि नहीं है।</div>`;
+        return;
+      }
+
+      cont.innerHTML = list.map(r => `
+        <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:10px 14px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <strong>${escapeHtml(r.title)}</strong> ${r.cust ? `<span style="font-size:12px; color:#64748b;">(${escapeHtml(r.cust)})</span>` : ''}
+            <div style="font-size:11.5px; color:#64748b;">${r.time}</div>
+          </div>
+          <strong style="color:#059669; font-size:15px;">₹${r.amt}</strong>
+        </div>
+      `).join('');
+    }
+
+    /* 9. CLARIFICATION & DOCUMENT RE-UPLOAD */
+    function openReuploadModal(trackingId) {
+      const app = allApplications.find(a => a.trackingId === trackingId);
+      if (!app) return;
+      document.getElementById("reupload-app-id").value = trackingId;
+      document.getElementById("reupload-reason-text").innerText = `कारण: ${app.adminRemarks || 'दस्तावेज़ अस्पष्ट है, कृपया नया साफ़ दस्तावेज़ अपलोड करें।'}`;
+      document.getElementById("reupload-doc-modal").classList.add("active");
+    }
+
+    async function handleReuploadSubmit(e) {
+      e.preventDefault();
+      const trackingId = document.getElementById("reupload-app-id").value;
+      const fileInput = document.getElementById("reupload-file-input");
+      if (!fileInput.files || !fileInput.files[0]) return showToast("कृपया फ़ाइल चुनें!");
+
+      const file = fileInput.files[0];
+      const b64 = await compressImageFile(file);
+
+      const app = allApplications.find(a => a.trackingId === trackingId);
+      if (app) {
+        if (!app.documents) app.documents = [];
+        app.documents.push({
+          title: "सुधारात्मक दस्तावेज़ (Re-uploaded)",
+          fileName: file.name,
+          fileData: b64
+        });
+        app.status = "In Progress";
+        app.adminRemarks = "सुधारात्मक दस्तावेज़ प्राप्त हुआ। पुनः सत्यापन जारी है।";
+        saveAppsState();
+        closeModal("reupload-doc-modal");
+        showToast("दस्तावेज़ सफलतापूर्वक री-अपलोड हुआ!");
+        renderCitizenDashboard();
+      }
+    }
+
+    /* 10. SERVICES GRID RENDERER */
+    function renderPortalServicesGrid(mode = "citizen") {
+      const containerId = mode === "citizen" ? "citizen-services-grid" : "kiosk-services-grid";
+      const chipsId = mode === "citizen" ? "citizen-category-chips" : "kiosk-category-chips";
+
+      const chipsBox = document.getElementById(chipsId);
+      if (chipsBox) {
+        chipsBox.innerHTML = categories.map(c => `
+          <button class="cat-pill-btn ${currentActiveCategory === c.id ? 'active' : ''}" onclick="filterPortalCat('${c.id}', '${mode}')">
+            ${escapeHtml(c.name)}
+          </button>
+        `).join('');
+      }
+
+      const grid = document.getElementById(containerId);
+      if (!grid) return;
+
+      const filtered = services.filter(s => currentActiveCategory === "all" || s.category === currentActiveCategory);
+
+      grid.innerHTML = filtered.map(s => {
+        const isKiosk = mode === "kiosk";
+        const price = isKiosk ? s.kioskPrice : s.citizenPrice;
+
+        return `
+          <div class="service-card-item">
+            <div>
+              <div class="card-icon-box"><i class="${s.icon}"></i></div>
+              <h3 style="font-size:18.5px; font-weight:800; margin-bottom:6px;">${s.name}</h3>
+              <p style="font-size:13px; color:var(--text-muted); line-height:1.5;">${s.desc}</p>
+              
+              <div class="req-docs-preview">
+                <strong style="color:#1e3a8a; display:block; margin-bottom:4px;"><i class="fa-solid fa-file-shield"></i> जरूरी दस्तावेज़:</strong>
+                ${(s.docsRequired || []).map(d => `• ${d}`).join('<br>')}
+              </div>
+            </div>
+
+            <div style="border-top:1px dashed var(--border-color); padding-top:16px; display:flex; align-items:center; justify-content:space-between;">
+              <div>
+                <span style="font-size:25px; font-weight:900; color:var(--primary);">₹${price}</span>
+                ${isKiosk ? `<div style="font-size:11.5px; color:#059669; font-weight:800;">+₹${s.commission} कमीशन</div>` : ''}
+              </div>
+
+              <button class="btn-glow" style="padding:10px 20px; font-size:13.5px;" onclick="openFastUploadModal('${s.id}')">
+                <span>Upload & Apply</span> <i class="fa-solid fa-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function filterPortalCat(catId, mode) {
+      currentActiveCategory = catId;
+      renderPortalServicesGrid(mode);
+    }
+
+    /* 11. FAST UPLOAD WITH AUTO-COMPRESSOR & CHECKOUT */
+    function openFastUploadModal(serviceId) {
+      if (currentAuthSession) {
+        if (currentAuthSession.role === 'citizen') {
+          const fresh = allCitizens.find(c => c.mobile === currentAuthSession.mobile);
+          if (fresh && fresh.locked) return showToast("⚠️ आपकी Citizen ID लॉक है!");
+        } else if (currentAuthSession.role === 'kiosk') {
+          const fresh = allKiosks.find(k => k.mobile === currentAuthSession.mobile);
+          if (fresh && fresh.locked) return showToast("⚠️ आपकी Kiosk ID लॉक है!");
+        }
+      }
+
+      const service = services.find(s => s.id === serviceId);
+      if (!service) return;
+      currentSelectedService = service;
+
+      const isKiosk = currentAuthSession && currentAuthSession.role === "kiosk";
+      const finalPrice = isKiosk ? service.kioskPrice : service.citizenPrice;
+
+      document.getElementById("upload-svc-title").innerText = service.name;
+      document.getElementById("upload-svc-desc").innerText = service.desc;
+      document.getElementById("upload-svc-price").innerText = `₹${finalPrice}`;
+      document.getElementById("upload-payable-amt").innerText = `₹${finalPrice}`;
+      document.getElementById("upload-fee-type").innerText = isKiosk ? "Kiosk VLE Fee" : "Govt Assist Fee";
+      document.getElementById("upload-svc-icon").innerHTML = `<i class="${service.icon}"></i>`;
+      document.getElementById("btn-submit-text").innerText = isKiosk ? "वॉलेट से तुरंत आवेदन करें" : "Pay with Razorpay";
+
+      document.getElementById("cust-name").value = currentAuthSession.role === "citizen" ? currentAuthSession.name : "";
+      document.getElementById("cust-mobile").value = currentAuthSession.role === "citizen" ? currentAuthSession.mobile : "";
+      document.getElementById("cust-notes").value = "";
+
+      const kioskPinBox = document.getElementById("kiosk-pin-checkout-box");
+      if (isKiosk) {
+        kioskPinBox.style.display = "block";
+        document.getElementById("kiosk-modal-wallet-disp").innerText = `₹${(currentAuthSession.walletBalance || 0).toFixed(2)}`;
+        document.getElementById("kiosk-payment-pin").value = "";
+      } else {
+        kioskPinBox.style.display = "none";
+      }
+
+      const dropzoneContainer = document.getElementById("dynamic-upload-dropzones-list");
+      dropzoneContainer.innerHTML = (service.docsRequired || ["आधार कार्ड"]).map((docTitle, idx) => `
+        <div class="doc-dropzone-item" id="dropzone-${idx}">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;">
+            <strong style="color:#1e3a8a; font-size:13.5px;"><i class="fa-solid fa-file-circle-check"></i> ${docTitle} *</strong>
+            <span class="file-status-indicator" style="font-size:11.5px; font-weight:700; color:#94a3b8;">फ़ाइल चुनें (Auto Compresses)</span>
+          </div>
+          <input type="file" required class="field-control file-input-element" data-doc-title="${escapeHtml(docTitle)}" accept=".jpg,.jpeg,.png,.pdf" onchange="handleFileSelected(this, ${idx})" />
+        </div>
+      `).join('');
+
+      switchTab("apply");
+    }
+
+    function handleFileSelected(input, index) {
+      const dropzone = document.getElementById(`dropzone-${index}`);
+      const indicator = dropzone.querySelector(".file-status-indicator");
+      if (input.files && input.files[0]) {
+        dropzone.classList.add("has-file");
+        indicator.innerHTML = `<span style="color:#059669;"><i class="fa-solid fa-circle-check"></i> ${input.files[0].name} (Compressed)</span>`;
+      }
+    }
+
+    async function handleFastUploadSubmit(e) {
+      e.preventDefault();
+      const btn = document.getElementById("btn-submit-upload");
+      btn.disabled = true;
+
+      try {
+        const isKiosk = currentAuthSession && currentAuthSession.role === "kiosk";
+        const finalPrice = isKiosk ? currentSelectedService.kioskPrice : currentSelectedService.citizenPrice;
+        const commissionAmount = isKiosk ? currentSelectedService.commission : 0;
+
+        if (isKiosk) {
+          const pin = document.getElementById("kiosk-payment-pin").value.trim();
+          if (!pin || pin !== currentAuthSession.pin) throw new Error("गलत Kiosk Security PIN!");
+          if ((currentAuthSession.walletBalance || 0) < finalPrice) throw new Error("वॉलेट में बैलेंस कम है! कृपया टॉप-अप करें।");
+        }
+
+        const inputs = document.querySelectorAll(".file-input-element");
+        const docs = [];
+        for (const inp of inputs) {
+          const file = inp.files[0];
+          if (!file) throw new Error("कृपया सभी आवश्यक दस्तावेज़ अपलोड करें!");
+          const b64 = await compressImageFile(file);
+          docs.push({ title: inp.getAttribute("data-doc-title"), fileName: file.name, fileData: b64 });
+        }
+
+        const applicantName = document.getElementById("cust-name").value.trim();
+        const applicantMobile = document.getElementById("cust-mobile").value.trim();
+        const applicantNotes = document.getElementById("cust-notes").value.trim();
+        const trackingId = "JSK-2026-" + Math.floor(100000 + Math.random() * 900000);
+
+        const newAppObj = {
+          trackingId,
+          serviceId: currentSelectedService.id,
+          serviceName: currentSelectedService.name,
+          price: finalPrice,
+          commission: commissionAmount,
+          name: applicantName,
+          mobile: applicantMobile,
+          notes: applicantNotes,
+          appliedByRole: isKiosk ? "kiosk" : "citizen",
+          appliedByMobile: currentAuthSession.mobile,
+          kioskCenter: isKiosk ? currentAuthSession.centerName : "Direct Citizen",
+          documents: docs,
+          status: "Pending",
+          adminRemarks: "दस्तावेज़ प्राप्त हुए। सत्यापन जारी है।",
+          finalCertificate: null,
+          rawDate: getTodayDateString(),
+          formattedDate: new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })
+        };
+
+        if (isKiosk) {
+          currentAuthSession.walletBalance -= finalPrice;
+          currentAuthSession.commissionEarned = (currentAuthSession.commissionEarned || 0) + commissionAmount;
+          
+          recordPassbookEntry(currentAuthSession.mobile, 'DR', `सेवा शुल्क: ${currentSelectedService.name} (${trackingId})`, finalPrice, currentAuthSession.walletBalance);
+          recordPassbookEntry(currentAuthSession.mobile, 'CR', `कमीशन क्रेडिट: ${currentSelectedService.name}`, commissionAmount, currentAuthSession.walletBalance);
+
+          const kIdx = allKiosks.findIndex(k => k.mobile === currentAuthSession.mobile);
+          if (kIdx !== -1) {
+            allKiosks[kIdx].walletBalance = currentAuthSession.walletBalance;
+            allKiosks[kIdx].commissionEarned = currentAuthSession.commissionEarned;
+            saveKiosksState();
+          }
+          localStorage.setItem("portal_current_session_v6", JSON.stringify(currentAuthSession));
+
+          newAppObj.paymentId = "WALLET-" + Math.floor(100000 + Math.random() * 900000);
+          saveApplicationRecord(newAppObj);
+          showToast(`आवेदन सफल! ₹${commissionAmount} कमीशन वॉलेट में जुड़ा!`);
+          btn.disabled = false;
+        } else {
+          btn.disabled = false;
+          triggerRazorpayCheckout({
+            amount: finalPrice * 100,
+            name: applicantName,
+            mobile: applicantMobile,
+            serviceName: currentSelectedService.name,
+            onSuccess: (paymentId) => {
+              newAppObj.paymentId = paymentId;
+              saveApplicationRecord(newAppObj);
+              showToast("Razorpay भुगतान सफल! आवेदन जमा हुआ।");
+            }
+          });
+        }
+
+      } catch (err) {
+        showToast(err.message || "त्रुटि हुई!");
+        btn.disabled = false;
+      }
+    }
+
+    function triggerRazorpayCheckout({ amount, name, mobile, serviceName, onSuccess }) {
+      const options = {
+        key: portalSettings.rzpKey || "rzp_test_YourRazorpayKeyHere",
+        amount: amount,
+        currency: "INR",
+        name: portalSettings.merchantName || "Jan Seva Kendra",
+        description: `सरकारी सेवा शुल्क: ${serviceName}`,
+        image: "https://cdn-icons-png.flaticon.com/512/9422/9422894.png",
+        prefill: {
+          name: name,
+          contact: mobile
+        },
+        theme: {
+          color: "#2563eb"
+        },
+        handler: function (response) {
+          if (response && response.razorpay_payment_id) {
+            onSuccess(response.razorpay_payment_id);
+          } else {
+            showToast("भुगतान अधूरा रहा!");
+          }
+        },
+        modal: {
+          ondismiss: function () {
+            showToast("भुगतान विंडो बंद की गई");
+          }
+        }
+      };
+
+      try {
+        const rzp = new Razorpay(options);
+        rzp.open();
+      } catch(err) {
+        const demoPayId = "pay_rzp_" + Math.random().toString(36).substr(2, 9);
+        onSuccess(demoPayId);
+      }
+    }
+
+    function saveApplicationRecord(app) {
+      allApplications.unshift(app);
+      saveAppsState();
+      document.getElementById("fast-upload-form").reset();
+      renderTrackingResult(app);
+      switchTab("track");
+    }
+
+    /* 12. LIVE TRACKING & CERTIFICATE DOWNLOAD */
+    function trackFromHero() {
+      const q = document.getElementById("hero-track-id").value.trim();
+      if (!q) return showToast("कृपया ID या मोबाइल नंबर दर्ज करें");
+      document.getElementById("track-search-input").value = q;
+      switchTab("track");
+      performTracking();
+    }
+
+    function performTracking() {
+      const q = document.getElementById("track-search-input").value.trim().toUpperCase();
+      const cont = document.getElementById("track-result-render");
+      if (!q) return showToast("कृपया ID या मोबाइल लिखें");
+
+      const app = allApplications.find(a => a.trackingId === q || a.mobile === q);
+      if (app) {
+        renderTrackingResult(app);
+      } else {
+        cont.innerHTML = `<div style="text-align:center; padding:35px; background:#fff; border-radius:18px; border:1px solid var(--border-color);"><h3>कोई रिकॉर्ड नहीं मिला</h3><p style="color:#64748b; margin-top:4px;">कृपया सही Reference ID या मोबाइल नंबर जांचें।</p></div>`;
+      }
+    }
+
+    function renderTrackingResult(app) {
+      const isApproved = app.status === 'Approved';
+      const isInProg = app.status === 'In Progress' || isApproved;
+      const isRejected = app.status === 'Rejected';
+
+      document.getElementById("track-result-render").innerHTML = `
+        <div style="max-width:740px; margin:0 auto; background:#fff; border-radius:var(--radius-xl); border:1px solid var(--border-color); padding:28px; box-shadow:var(--shadow-premium);">
+          <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid var(--border-color); padding-bottom:14px; margin-bottom:18px;">
+            <div>
+              <span style="font-size:11.5px; font-weight:800; color:var(--text-muted); text-transform:uppercase;">REFERENCE ID</span>
+              <h3 style="font-size:23px; font-weight:900; color:var(--primary);">${app.trackingId}</h3>
+            </div>
+            <span class="status-badge ${getStatusBadgeClass(app.status)}">${app.status}</span>
+          </div>
+
+          <!-- 4-STEP VISUAL TRACKER -->
+          <div class="stepper-container">
+            <div class="step-item done">
+              <div class="step-dot"><i class="fa-solid fa-check"></i></div>
+              <span class="step-title">आवेदन जमा</span>
+            </div>
+            <div class="step-item ${isInProg ? 'done' : 'active'}">
+              <div class="step-dot"><i class="fa-solid fa-magnifying-glass"></i></div>
+              <span class="step-title">दस्तावेज़ सत्यापन</span>
+            </div>
+            <div class="step-item ${isApproved ? 'done' : (isInProg ? 'active' : '')}">
+              <div class="step-dot"><i class="fa-solid fa-spinner"></i></div>
+              <span class="step-title">प्रक्रियाधीन</span>
+            </div>
+            <div class="step-item ${isApproved ? 'done' : (isRejected ? 'active' : '')}">
+              <div class="step-dot"><i class="fa-solid fa-award"></i></div>
+              <span class="step-title">${isRejected ? 'अस्वीकृत' : 'जारी/तैयार'}</span>
+            </div>
+          </div>
+
+          <div style="background:#f8fafc; border-radius:14px; padding:18px; font-size:13.5px; line-height:2; border:1px solid var(--border-color); margin-bottom:18px;">
+            <div><strong>आवेदक का नाम:</strong> ${escapeHtml(app.name)}</div>
+            <div><strong>मोबाइल नंबर:</strong> ${app.mobile}</div>
+            <div><strong>सेवा:</strong> ${escapeHtml(app.serviceName)}</div>
+            <div><strong>आवेदन माध्यम:</strong> ${app.appliedByRole === 'kiosk' ? `Kiosk: ${app.kioskCenter}` : 'नागरिक पोर्टल'}</div>
+            <div><strong>वर्तमान स्थिति / टिप्पणी:</strong> <span style="color:#059669; font-weight:800;">${escapeHtml(app.adminRemarks)}</span></div>
+            <div><strong>Payment ID:</strong> <code>${app.paymentId || 'VERIFIED'}</code></div>
+          </div>
+
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
+            ${app.finalCertificate ? `
+              <button class="btn-glow" onclick="downloadCertificate('${app.trackingId}')" style="background:linear-gradient(135deg, #10b981, #059669);">
+                <i class="fa-solid fa-file-circle-check"></i> डाउनलोड ओरिजिनल प्रमाण पत्र (PDF)
+              </button>
+            ` : '<div style="font-size:13px; color:#f59e0b; font-weight:700;"><i class="fa-solid fa-hourglass-half"></i> प्रमाण पत्र अभी तैयार किया जा रहा है...</div>'}
+            
+            <button class="nav-link-btn" onclick="openPrintableSlipModal('${app.trackingId}')" style="background:#fff; border:1px solid var(--border-color);">
+              <i class="fa-solid fa-receipt"></i> पावती रसीद देखें व प्रिंट करें
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function downloadCertificate(trackingId) {
+      const app = allApplications.find(a => a.trackingId === trackingId);
+      if (!app || !app.finalCertificate) return showToast("प्रमाण पत्र उपलब्ध नहीं है!");
+
+      const a = document.createElement("a");
+      a.href = app.finalCertificate.fileData;
+      a.download = app.finalCertificate.fileName || `${app.trackingId}_Certificate.pdf`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      showToast("प्रमाण पत्र डाउनलोड हो रहा है...");
+    }
+
+    /* 13. MASTER ADMIN DASHBOARD */
+    function handleAdminNav() {
+      if (sessionStorage.getItem("admin_session_active_v6") === "yes") {
+        switchTab("admin-dash");
+        refreshAdminStats();
+      } else {
+        document.getElementById("admin-email").value = "";
+        document.getElementById("admin-password").value = "";
+        switchTab("admin-login");
+      }
+    }
+
+    function handleAdminLogin(e) {
+      e.preventDefault();
+      const em = document.getElementById("admin-email").value.trim();
+      const ps = document.getElementById("admin-password").value.trim();
+
+      if (em === MASTER_ADMIN.email && ps === MASTER_ADMIN.password) {
+        sessionStorage.setItem("admin_session_active_v6", "yes");
+        showToast("Master Admin Login Successful!");
+        switchTab("admin-dash");
+        refreshAdminStats();
+      } else {
+        showToast("गलत ईमेल या पासवर्ड!");
+      }
+    }
+
+    function handleAdminLogout() {
+      sessionStorage.removeItem("admin_session_active_v6");
+      switchTab("home");
+    }
+
+    function refreshAdminStats() {
+      const rev = allApplications.reduce((sum, a) => sum + (Number(a.price) || 0), 0);
+      const citizenOrders = allApplications.filter(a => a.appliedByRole === 'citizen').length;
+      const kioskOrders = allApplications.filter(a => a.appliedByRole === 'kiosk').length;
+
+      const todayStr = getTodayDateString();
+      const todayTotalComm = allApplications
+        .filter(a => a.rawDate === todayStr)
+        .reduce((sum, a) => sum + (Number(a.commission) || 0), 0);
+
+      document.getElementById("stat-revenue").innerText = `₹${rev.toLocaleString('en-IN')}`;
+      document.getElementById("stat-citizen-orders").innerText = citizenOrders;
+      document.getElementById("stat-kiosk-orders").innerText = kioskOrders;
+      document.getElementById("stat-today-comm").innerText = `₹${todayTotalComm.toLocaleString('en-IN')}`;
+      document.getElementById("admin-pending-wth-count").innerText = allWithdrawals.filter(w => w.status === 'Pending').length;
+      
+      filterAdminTable();
+    }
+
+    function filterAdminTable() {
+      const q = (document.getElementById("admin-search-input")?.value || "").toLowerCase();
+      const list = allApplications.filter(a => (a.name||'').toLowerCase().includes(q) || (a.trackingId||'').toLowerCase().includes(q) || (a.mobile||'').includes(q));
+      const tbody = document.getElementById("admin-table-body");
+
+      tbody.innerHTML = list.map(a => `
+        <tr>
+          <td><strong style="color:var(--primary);">${a.trackingId}</strong><div style="font-size:11.5px; color:#64748b;">${a.formattedDate}</div></td>
+          <td><strong>${escapeHtml(a.name)}</strong><div style="font-size:11.5px;">${a.mobile}</div></td>
+          <td><span style="font-weight:700; color:${a.appliedByRole === 'kiosk' ? '#d97706':'#2563eb'};">${a.appliedByRole === 'kiosk' ? `Kiosk: ${escapeHtml(a.kioskCenter)}` : 'Citizen'}</span></td>
+          <td>${escapeHtml(a.serviceName)}</td>
+          <td>₹${a.price}</td>
+          <td><span class="status-badge ${getStatusBadgeClass(a.status)}">${a.status}</span></td>
+          <td>${a.finalCertificate ? `<span style="color:#059669; font-weight:800;"><i class="fa-solid fa-circle-check"></i> Attached</span>` : '<span style="color:#94a3b8;">No</span>'}</td>
+          <td>
+            <button class="btn-action-pill btn-action-blue" onclick="openAppReviewModal('${a.trackingId}')">
+              <i class="fa-solid fa-file-pen"></i> Review
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    function openAppReviewModal(trackingId) {
+      const app = allApplications.find(a => a.trackingId === trackingId);
+      if (!app) return;
+      selectedActiveApp = app;
+
+      document.getElementById("review-app-id").value = app.trackingId;
+      document.getElementById("review-modal-ref").innerText = `Ref: ${app.trackingId} | आवेदक: ${app.name} (${app.mobile})`;
+      document.getElementById("review-status-select").value = app.status;
+      document.getElementById("review-remarks").value = app.adminRemarks || "";
+
+      document.getElementById("review-customer-summary").innerHTML = `
+        <strong>सेवा:</strong> ${app.serviceName} | <strong>शुल्क:</strong> ₹${app.price} | <strong>टिप्पणी:</strong> ${app.notes || 'कोई नहीं'}
+      `;
+
+      document.getElementById("review-docs-list").innerHTML = (app.documents || []).map((d, i) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; background:#fff; border:1px solid #e2e8f0; padding:10px 14px; border-radius:10px;">
+          <span>${escapeHtml(d.title)} (${escapeHtml(d.fileName)})</span>
+          <button type="button" class="btn-action-pill btn-action-green" onclick="downloadSingleDoc(${i})"><i class="fa-solid fa-download"></i> View</button>
+        </div>
+      `).join('');
+
+      const certDisp = document.getElementById("uploaded-certificate-disp");
+      if (app.finalCertificate) {
+        certDisp.innerHTML = `<i class="fa-solid fa-circle-check"></i> वर्तमान प्रमाण पत्र: ${app.finalCertificate.fileName}`;
+      } else {
+        certDisp.innerHTML = "";
+      }
+
+      tempCertificateBase64 = null;
+      document.getElementById("admin-certificate-file").value = "";
+      document.getElementById("app-review-modal").classList.add("active");
+    }
+
+    async function handleAdminCertificateUpload(input) {
+      if (input.files && input.files[0]) {
+        const file = input.files[0];
+        const b64 = await compressImageFile(file);
+        tempCertificateBase64 = {
+          fileName: file.name,
+          fileData: b64,
+          uploadedAt: new Date().toISOString()
+        };
+        document.getElementById("uploaded-certificate-disp").innerHTML = `<i class="fa-solid fa-circle-check"></i> फ़ाइल चुनी गई: ${file.name}`;
+      }
+    }
+
+    function saveAppStatusUpdate(e) {
+      e.preventDefault();
+      if (!selectedActiveApp) return;
+
+      selectedActiveApp.status = document.getElementById("review-status-select").value;
+      selectedActiveApp.adminRemarks = document.getElementById("review-remarks").value.trim();
+
+      if (tempCertificateBase64) {
+        selectedActiveApp.finalCertificate = tempCertificateBase64;
+        selectedActiveApp.status = "Approved";
+      }
+
+      saveAppsState();
+      closeModal("app-review-modal");
+      refreshAdminStats();
+      showToast("आवेदन व प्रमाण पत्र सफलतापूर्वक अपडेट हो गए!");
+    }
+
+    function sendWhatsAppNotification() {
+      if (!selectedActiveApp) return;
+      const text = `नमस्ते ${selectedActiveApp.name},\nजन सेवा केंद्र पर आपके आवेदन (Ref ID: ${selectedActiveApp.trackingId}) की वर्तमान स्थिति: ${selectedActiveApp.status} है।\nविवरण: ${selectedActiveApp.adminRemarks || 'प्रक्रिया जारी है।'}\nप्रमाण पत्र अथवा पावती डाउनलोड करने हेतु पोर्टल पर जाएं।`;
+      const url = `https://wa.me/91${selectedActiveApp.mobile}?text=${encodeURIComponent(text)}`;
+      window.open(url, "_blank");
+    }
+
+    function downloadSingleDoc(idx) {
+      if (!selectedActiveApp || !selectedActiveApp.documents[idx]) return;
+      const doc = selectedActiveApp.documents[idx];
+      const a = document.createElement("a");
+      a.href = doc.fileData;
+      a.download = doc.fileName;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+
+    function deleteCurrentApplication() {
+      if (!selectedActiveApp || !confirm("क्या आप सच में इस आवेदन को हटाना चाहते हैं?")) return;
+      allApplications = allApplications.filter(a => a.trackingId !== selectedActiveApp.trackingId);
+      if (isFirebaseReady && db) {
+        db.ref('applications/' + selectedActiveApp.trackingId).remove();
+      }
+      saveAppsState();
+      closeModal("app-review-modal");
+      refreshAdminStats();
+      showToast("आवेदन हटा दिया गया!");
+    }
+
+    /* 14. NO-OTP DIRECT REGISTRATION & AUTHENTICATION */
+    function isMobileAlreadyRegistered(mobile) {
+      const inCitizen = allCitizens.some(c => c.mobile === mobile);
+      const inKiosk = allKiosks.some(k => k.mobile === mobile);
+      return inCitizen || inKiosk;
+    }
+
+    function handleCitizenRegistration(e) {
+      e.preventDefault();
+      const name = document.getElementById("reg-name").value.trim();
+      const mobile = document.getElementById("reg-mobile").value.trim();
+      const pass = document.getElementById("reg-pass").value.trim();
+
+      if (mobile.length !== 10 || isNaN(mobile)) {
+        return showToast("कृपया 10-अंकीय वैध मोबाइल दर्ज करें!");
+      }
+
+      if (isMobileAlreadyRegistered(mobile)) {
+        return showToast("⚠️ यह मोबाइल नंबर पहले से पंजीकृत है!");
+      }
+
+      const newCitizen = {
+        name,
+        mobile,
+        password: pass,
+        locked: false,
+        lockReason: "",
+        registeredAt: new Date().toLocaleDateString('en-IN')
+      };
+
+      allCitizens.push(newCitizen);
+      saveCitizensState();
+
+      currentAuthSession = { role: "citizen", ...newCitizen };
+      localStorage.setItem("portal_current_session_v6", JSON.stringify(currentAuthSession));
+      
+      closeModal("user-auth-modal");
+      updateNavbarSessionUI();
+      showToast(`नागरिक आईडी सुरक्षित बन गई! स्वागत है ${name}`);
+      renderCitizenDashboard();
+      switchTab("citizen-portal");
+    }
+
+    function showCitizenRegisterScreen() {
+      document.getElementById("universal-login-form").style.display = "none";
+      document.getElementById("citizen-register-form").style.display = "block";
+      document.getElementById("auth-modal-title").innerText = "New Citizen Registration";
+    }
+
+    function showCitizenLoginScreen() {
+      document.getElementById("citizen-register-form").style.display = "none";
+      document.getElementById("universal-login-form").style.display = "block";
+      document.getElementById("auth-modal-title").innerText = "Citizen Login";
+    }
+
+    function openAuthModal(role = 'citizen') {
+      showCitizenLoginScreen();
+      switchAuthTab(role);
+      document.getElementById("user-auth-modal").classList.add("active");
+    }
+
+    function switchAuthTab(role) {
+      const tabCitizen = document.getElementById("tab-auth-citizen");
+      const tabKiosk = document.getElementById("tab-auth-kiosk");
+      const title = document.getElementById("auth-modal-title");
+      const regPrompt = document.getElementById("citizen-reg-prompt-box");
+
+      if (role === 'citizen') {
+        tabCitizen.classList.add("active");
+        tabKiosk.classList.remove("active");
+        title.innerText = "Citizen Login (नागरिक)";
+        regPrompt.style.display = "block";
+      } else {
+        tabCitizen.classList.remove("active");
+        tabKiosk.classList.add("active");
+        title.innerText = "CSC Kiosk VLE Operator Login";
+        regPrompt.style.display = "none";
+      }
+    }
+
+    function handleUniversalLogin(e) {
+      e.preventDefault();
+      const mobile = document.getElementById("login-mobile").value.trim();
+      const pass = document.getElementById("login-pass").value.trim();
+      const isCitizen = document.getElementById("tab-auth-citizen").classList.contains("active");
+
+      if (!isCitizen) {
+        const found = allKiosks.find(k => k.mobile === mobile && k.password === pass);
+        if (found) {
+          currentAuthSession = { role: "kiosk", ...found };
+          localStorage.setItem("portal_current_session_v6", JSON.stringify(currentAuthSession));
+          closeModal("user-auth-modal");
+          updateNavbarSessionUI();
+          showToast(`Kiosk लॉगिन: ${found.centerName}`);
+          renderKioskPortal();
+          switchTab("kiosk-portal");
+        } else {
+          showToast("अमान्य Kiosk मोबाइल या पासवर्ड!");
+        }
+      } else {
+        const found = allCitizens.find(c => c.mobile === mobile && c.password === pass);
+        if (found) {
+          currentAuthSession = { role: "citizen", ...found };
+          localStorage.setItem("portal_current_session_v6", JSON.stringify(currentAuthSession));
+          closeModal("user-auth-modal");
+          updateNavbarSessionUI();
+          showToast(`स्वागत है, ${found.name}`);
+          renderCitizenDashboard();
+          switchTab("citizen-portal");
+        } else {
+          showToast("नागरिक खाता नहीं मिला! कृपया 'Register New ID' पर क्लिक करें।");
+        }
+      }
+    }
+
+    function updateNavbarSessionUI() {
+      const cont = document.getElementById("desktop-user-container");
+      const mobIcon = document.getElementById("mob-user-icon");
+      const mobText = document.getElementById("mob-user-text");
+
+      if (currentAuthSession) {
+        const isKiosk = currentAuthSession.role === "kiosk";
+        cont.innerHTML = `
+          <div style="background:${isKiosk ? '#fef3c7' : '#eff6ff'}; border:1px solid ${isKiosk ? '#fde68a' : '#bfdbfe'}; padding:7px 16px; border-radius:12px; font-size:13px; font-weight:800; color:${isKiosk ? '#b45309' : '#1d4ed8'}; display:flex; align-items:center; gap:8px;">
+            <i class="fa-solid ${isKiosk ? 'fa-store' : 'fa-user-check'}"></i>
+            <span onclick="${isKiosk ? 'accessKioskPortal()' : 'accessCitizenPortal()'}" style="cursor:pointer;">
+              ${escapeHtml(isKiosk ? currentAuthSession.centerName : currentAuthSession.name)}
+            </span>
+            <button onclick="handleUserLogout()" title="Logout" style="border:none; background:transparent; color:#ef4444; cursor:pointer;"><i class="fa-solid fa-power-off"></i></button>
+          </div>
+        `;
+        if (mobText) mobText.innerText = isKiosk ? "Kiosk VLE" : "Citizen";
+        if (mobIcon) mobIcon.className = isKiosk ? "fa-solid fa-store" : "fa-solid fa-user-check";
+      } else {
+        cont.innerHTML = `
+          <button class="nav-link-btn nav-btn-special" onclick="openAuthModal('citizen')">
+            <i class="fa-solid fa-user-lock"></i> Citizen / VLE Login
+          </button>
+        `;
+        if (mobText) mobText.innerText = "Portals";
+        if (mobIcon) mobIcon.className = "fa-solid fa-user-circle";
+      }
+    }
+
+    function handleUserLogout() {
+      currentAuthSession = null;
+      localStorage.removeItem("portal_current_session_v6");
+      updateNavbarSessionUI();
+      showToast("लॉगआउट सफल!");
+      switchTab("home");
+    }
+
+    /* 15. USER DIRECTORY & ID LOCK CONTROLS */
+    let currentDirTab = 'kiosk';
+    function openUsersDirectoryModal() {
+      renderUsersDirectory(currentDirTab);
+      document.getElementById("users-directory-modal").classList.add("active");
+    }
+
+    function renderUsersDirectory(type) {
+      currentDirTab = type;
+      document.getElementById("filter-user-tab-kiosk").classList.toggle("active", type === 'kiosk');
+      document.getElementById("filter-user-tab-citizen").classList.toggle("active", type === 'citizen');
+      const cont = document.getElementById("users-directory-render");
+
+      if (type === 'kiosk') {
+        if (allKiosks.length === 0) {
+          cont.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;">कोई Kiosk नहीं है। ऊपर से बनाएं।</div>`;
+          return;
+        }
+        cont.innerHTML = allKiosks.map((k, idx) => `
+          <div style="background:#fff; border:1px solid #e2e8f0; padding:12px 16px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div>
+              <strong>${escapeHtml(k.centerName)} (${escapeHtml(k.name)})</strong>
+              <div style="font-size:12px; color:#64748b;">Mob: <b>${k.mobile}</b> | Pass: <code>${k.password}</code> | Wallet: ₹${k.walletBalance||0}</div>
+              <div style="font-size:11.5px; margin-top:2px;">
+                Status: <span style="font-weight:900; color:${k.locked ? '#dc2626' : '#16a34a'};">${k.locked ? '🔒 LOCKED' : '🟢 ACTIVE'}</span>
+                ${k.lockReason ? `<span style="color:#b91c1c;">(${escapeHtml(k.lockReason)})</span>` : ''}
+              </div>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <button class="btn-action-pill ${k.locked ? 'btn-action-green' : 'btn-action-red'}" onclick="toggleKioskLockState(${idx})">
+                ${k.locked ? '<i class="fa-solid fa-lock-open"></i> Unlock' : '<i class="fa-solid fa-lock"></i> Lock'}
+              </button>
+              <button class="btn-action-pill btn-action-blue" onclick="adjustKioskBalance(${idx})">+/- बैलेंस</button>
+            </div>
+          </div>
+        `).join('');
+      } else {
+        if (allCitizens.length === 0) {
+          cont.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;">कोई पंजीकृत नागरिक नहीं मिला।</div>`;
+          return;
+        }
+        cont.innerHTML = allCitizens.map((c, idx) => `
+          <div style="background:#fff; border:1px solid #e2e8f0; padding:12px 16px; border-radius:12px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+            <div>
+              <strong>${escapeHtml(c.name)}</strong>
+              <div style="font-size:12px; color:#64748b;">Mob: <b>${c.mobile}</b> | Pass: <code>${c.password}</code></div>
+              <div style="font-size:11.5px; margin-top:2px;">
+                Status: <span style="font-weight:900; color:${c.locked ? '#dc2626' : '#16a34a'};">${c.locked ? '🔒 LOCKED' : '🟢 ACTIVE'}</span>
+              </div>
+            </div>
+            <div style="display:flex; gap:6px;">
+              <button class="btn-action-pill ${c.locked ? 'btn-action-green' : 'btn-action-red'}" onclick="toggleCitizenLockState(${idx})">
+                ${c.locked ? '<i class="fa-solid fa-lock-open"></i> Unlock' : '<i class="fa-solid fa-lock"></i> Lock'}
+              </button>
+            </div>
+          </div>
+        `).join('');
+      }
+    }
+
+    function toggleKioskLockState(idx) {
+      if (!allKiosks[idx].locked) {
+        const reason = prompt("आईडी लॉक करने का कारण दर्ज करें:", "अमान्य दस्तावेज़ अपलोड करने के कारण आईडी लॉक की गई है।");
+        allKiosks[idx].locked = true;
+        allKiosks[idx].lockReason = reason || "प्रशासनिक कारण";
+      } else {
+        allKiosks[idx].locked = false;
+        allKiosks[idx].lockReason = "";
+      }
+      saveKiosksState();
+      renderUsersDirectory('kiosk');
+      showToast(`Kiosk ID ${allKiosks[idx].locked ? 'LOCKED' : 'UNLOCKED'}!`);
+    }
+
+    function toggleCitizenLockState(idx) {
+      if (!allCitizens[idx].locked) {
+        const reason = prompt("नागरिक आईडी लॉक करने का कारण दर्ज करें:", "अमान्य गतिविधि");
+        allCitizens[idx].locked = true;
+        allCitizens[idx].lockReason = reason || "अमान्य गतिविधि";
+      } else {
+        allCitizens[idx].locked = false;
+        allCitizens[idx].lockReason = "";
+      }
+      saveCitizensState();
+      renderUsersDirectory('citizen');
+      showToast(`नागरिक ID ${allCitizens[idx].locked ? 'LOCKED' : 'UNLOCKED'}!`);
+    }
+
+    function openCreateKioskSubModal() {
+      const centerName = prompt("Enter Kiosk Center Name (उदा: Digital Bihar CSC):");
+      if (!centerName) return;
+      const opName = prompt("Enter Operator Full Name:");
+      if (!opName) return;
+      const mobile = prompt("Enter 10-Digit Mobile Number:");
+      if (!mobile || mobile.length !== 10 || isNaN(mobile)) return showToast("कृपया 10-अंकीय वैध मोबाइल दर्ज करें!");
+
+      if (isMobileAlreadyRegistered(mobile)) {
+        return showToast("⚠️ यह मोबाइल नंबर पहले से पंजीकृत है!");
+      }
+
+      const pass = prompt("Set Kiosk Password:") || "123456";
+
+      const newKiosk = {
+        centerName,
+        name: opName,
+        mobile,
+        password: pass,
+        walletBalance: 0,
+        commissionEarned: 0,
+        pin: "",
+        pinSet: false,
+        locked: false,
+        lockReason: ""
+      };
+
+      allKiosks.push(newKiosk);
+      saveKiosksState();
+      renderUsersDirectory('kiosk');
+      showToast("नया अधिकृत Kiosk ऑपरेटर दर्ज हो गया!");
+    }
+
+    function adjustKioskBalance(idx) {
+      const amt = prompt(`बैलेंस जोड़ें या घटाएं (उदा: 500 या -200):`);
+      if (!amt || isNaN(amt)) return;
+      const num = Number(amt);
+      allKiosks[idx].walletBalance = (allKiosks[idx].walletBalance || 0) + num;
+      recordPassbookEntry(allKiosks[idx].mobile, num > 0 ? 'CR' : 'DR', `व्यवस्थापक समायोजन`, Math.abs(num), allKiosks[idx].walletBalance);
+      saveKiosksState();
+      renderUsersDirectory('kiosk');
+      showToast("वॉलेट अपडेट हुआ!");
+    }
+
+    /* 16. KIOSK PIN, WALLET & WITHDRAWALS */
+    function handleSaveFirstTimeKioskPin(e) {
+      e.preventDefault();
+      const p1 = document.getElementById("first-pin-val").value.trim();
+      const p2 = document.getElementById("first-pin-conf").value.trim();
+
+      if (p1.length !== 4 || isNaN(p1)) return showToast("कृपया 4-अंकों का संख्यात्मक PIN डालें!");
+      if (p1 !== p2) return showToast("दोनों PIN मेल नहीं खाते!");
+
+      currentAuthSession.pin = p1;
+      currentAuthSession.pinSet = true;
+
+      const idx = allKiosks.findIndex(k => k.mobile === currentAuthSession.mobile);
+      if (idx !== -1) {
+        allKiosks[idx].pin = p1;
+        allKiosks[idx].pinSet = true;
+        saveKiosksState();
+      }
+      localStorage.setItem("portal_current_session_v6", JSON.stringify(currentAuthSession));
+
+      closeModal("kiosk-first-pin-modal");
+      showToast("4-अंकों का Kiosk Security PIN सुरक्षित हो गया!");
+      renderKioskPortal();
+    }
+
+    function openVLEIdCardModal() {
+      if (!currentAuthSession) return;
+      document.getElementById("badge-vle-name").innerText = currentAuthSession.name;
+      document.getElementById("badge-vle-center").innerText = currentAuthSession.centerName;
+      document.getElementById("badge-vle-mobile").innerText = currentAuthSession.mobile;
+      document.getElementById("badge-vle-id").innerText = "VLE-2026-" + currentAuthSession.mobile.slice(-4);
+      document.getElementById("vle-id-card-modal").classList.add("active");
+    }
+
+    function recordPassbookEntry(mobile, type, desc, amt, currentBal) {
+      const entry = {
+        mobile,
+        type,
+        desc,
+        amt,
+        balance: currentBal,
+        timestamp: new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: 'short' })
+      };
+      vlePassbookLedger.unshift(entry);
+      localStorage.setItem("portal_vle_passbook_v6", JSON.stringify(vlePassbookLedger));
+      if (isFirebaseReady && db) {
+        db.ref('passbooks/' + mobile).push(entry);
+      }
+    }
+
+    function openPassbookModal() {
+      if (!currentAuthSession) return;
+      const list = vlePassbookLedger.filter(p => p.mobile === currentAuthSession.mobile);
+      const cont = document.getElementById("vle-passbook-list");
+
+      if (list.length === 0) {
+        cont.innerHTML = `<div style="text-align:center; padding:20px; color:#64748b;">अभी कोई लेन-देन दर्ज नहीं है।</div>`;
+      } else {
+        cont.innerHTML = list.map(item => `
+          <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;">
+            <div>
+              <strong style="font-size:13.5px; color:#1e3a8a;">${escapeHtml(item.desc)}</strong>
+              <div style="font-size:11.5px; color:#64748b;">${item.timestamp} | शेष बैलेंस: ₹${item.balance.toFixed(2)}</div>
+            </div>
+            <span style="font-size:15px; font-weight:900; color:${item.type === 'CR' ? '#15803d' : '#b91c1c'};">
+              ${item.type === 'CR' ? '+' : '-'}₹${item.amt}
+            </span>
+          </div>
+        `).join('');
+      }
+      document.getElementById("vle-passbook-modal").classList.add("active");
+    }
+
+    function openDepositModal() {
+      document.getElementById("kiosk-deposit-modal").classList.add("active");
+    }
+
+    function handleKioskRazorpayDeposit(e) {
+      e.preventDefault();
+      const amt = Number(document.getElementById("deposit-amount").value);
+      if (amt < 50) return showToast("कृपया न्यूनतम ₹50 की राशि दर्ज करें!");
+
+      triggerRazorpayCheckout({
+        amount: amt * 100,
+        name: currentAuthSession.centerName,
+        mobile: currentAuthSession.mobile,
+        serviceName: "Kiosk Prepaid Wallet Top-Up",
+        onSuccess: (paymentId) => {
+          currentAuthSession.walletBalance = (currentAuthSession.walletBalance || 0) + amt;
+          recordPassbookEntry(currentAuthSession.mobile, 'CR', `Razorpay टॉप-अप (${paymentId})`, amt, currentAuthSession.walletBalance);
+
+          const idx = allKiosks.findIndex(k => k.mobile === currentAuthSession.mobile);
+          if (idx !== -1) {
+            allKiosks[idx].walletBalance = currentAuthSession.walletBalance;
+            saveKiosksState();
+          }
+          localStorage.setItem("portal_current_session_v6", JSON.stringify(currentAuthSession));
+          closeModal("kiosk-deposit-modal");
+          renderKioskPortal();
+          showToast(`₹${amt} Kiosk वॉलेट में जुड़ गए!`);
+        }
+      });
+    }
+
+    function openWithdrawModal() {
+      document.getElementById("wth-available-bal").innerText = `₹${(currentAuthSession.commissionEarned || 0).toFixed(2)}`;
+      document.getElementById("kiosk-withdraw-modal").classList.add("active");
+    }
+
+    function handleKioskWithdrawSubmit(e) {
+      e.preventDefault();
+      const amt = Number(document.getElementById("wth-amount").value);
+      const upi = document.getElementById("wth-upi").value.trim();
+
+      if (amt < (portalSettings.minWithdrawal || 200)) return showToast(`न्यूनतम विथड्रॉल ₹${portalSettings.minWithdrawal || 200} है!`);
+      if (amt > (currentAuthSession.commissionEarned || 0)) return showToast("कमीशन वॉलेट में अपर्याप्त बैलेंस!");
+
+      currentAuthSession.commissionEarned -= amt;
+      const idx = allKiosks.findIndex(k => k.mobile === currentAuthSession.mobile);
+      if (idx !== -1) {
+        allKiosks[idx].commissionEarned = currentAuthSession.commissionEarned;
+        saveKiosksState();
+      }
+      localStorage.setItem("portal_current_session_v6", JSON.stringify(currentAuthSession));
+
+      const wthItem = {
+        id: "WTH-" + Math.floor(100000 + Math.random() * 900000),
+        kioskMobile: currentAuthSession.mobile,
+        centerName: currentAuthSession.centerName,
+        amount: amt,
+        upiId: upi,
+        status: "Pending"
+      };
+
+      allWithdrawals.unshift(wthItem);
+      localStorage.setItem("portal_withdrawals_v6", JSON.stringify(allWithdrawals));
+      if (isFirebaseReady && db) {
+        db.ref('withdrawals/' + wthItem.id).set(wthItem);
+      }
+
+      closeModal("kiosk-withdraw-modal");
+      renderKioskPortal();
+      showToast("विथड्रॉल अनुरोध सबमिट हुआ!");
+    }
+
+    function openWithdrawalsManagerModal() {
+      const cont = document.getElementById("withdrawals-list-render");
+      cont.innerHTML = allWithdrawals.map((w, idx) => `
+        <div style="background:#fff; border:1px solid #e2e8f0; padding:12px; border-radius:12px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <strong>${escapeHtml(w.centerName)} (₹${w.amount})</strong>
+            <div style="font-size:12px;">UPI: <code>${escapeHtml(w.upiId)}</code> | Status: <strong>${w.status}</strong></div>
+          </div>
+          ${w.status === 'Pending' ? `
+            <button class="btn-action-pill btn-action-green" onclick="approveWithdrawal(${idx})"><i class="fa-solid fa-check"></i> Approve</button>
+          ` : '<span>Done</span>'}
+        </div>
+      `).join('');
+      document.getElementById("withdrawals-manager-modal").classList.add("active");
+    }
+
+    function approveWithdrawal(idx) {
+      allWithdrawals[idx].status = "Approved";
+      localStorage.setItem("portal_withdrawals_v6", JSON.stringify(allWithdrawals));
+      if (isFirebaseReady && db) {
+        db.ref('withdrawals/' + allWithdrawals[idx].id).update({ status: "Approved" });
+      }
+      openWithdrawalsManagerModal();
+      refreshAdminStats();
+      showToast("विथड्रॉल अप्रूव हो गया!");
+    }
+
+    /* 17. CATEGORIES & SERVICES SETTINGS */
+    function openCategoryManagerModal() {
+      document.getElementById("categories-list-render").innerHTML = categories.map((c, i) => `
+        <div style="display:flex; justify-content:space-between; align-items:center; background:#fff; border:1px solid #e2e8f0; padding:10px 14px; border-radius:10px;">
+          <span>${escapeHtml(c.name)}</span>
+          ${c.id !== 'all' ? `<button class="btn-action-pill btn-action-red" onclick="deleteCategory(${i})"><i class="fa-solid fa-trash"></i></button>` : ''}
+        </div>
+      `).join('');
+      document.getElementById("category-manager-modal").classList.add("active");
+    }
+
+    function addNewCategory() {
+      const name = document.getElementById("new-cat-name").value.trim();
+      if (!name) return;
+      const newCat = { id: "cat_" + Date.now(), name };
+      categories.push(newCat);
+      localStorage.setItem("portal_categories_v6", JSON.stringify(categories));
+      if (isFirebaseReady && db) {
+        db.ref('categories/' + newCat.id).set(newCat);
+      }
+      openCategoryManagerModal();
+      showToast("केटेगरी जुड़ गई!");
+    }
+
+    function deleteCategory(i) {
+      const cat = categories[i];
+      categories.splice(i, 1);
+      localStorage.setItem("portal_categories_v6", JSON.stringify(categories));
+      if (isFirebaseReady && db && cat) {
+        db.ref('categories/' + cat.id).remove();
+      }
+      openCategoryManagerModal();
+    }
+
+    function openAddServiceModal() {
+      const sel = document.getElementById("edit-svc-cat");
+      sel.innerHTML = categories.filter(c => c.id !== 'all').map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+      document.getElementById("edit-service-id").value = "svc_" + Date.now();
+      document.getElementById("edit-svc-name").value = "";
+      document.getElementById("edit-svc-citizen-price").value = "100";
+      document.getElementById("edit-svc-kiosk-price").value = "60";
+      document.getElementById("edit-svc-commission").value = "20";
+      document.getElementById("edit-svc-desc").value = "";
+      document.getElementById("service-editor-modal").classList.add("active");
+    }
+
+    function saveServiceDetails(e) {
+      e.preventDefault();
+      const s = {
+        id: document.getElementById("edit-service-id").value,
+        name: document.getElementById("edit-svc-name").value.trim(),
+        category: document.getElementById("edit-svc-cat").value,
+        citizenPrice: Number(document.getElementById("edit-svc-citizen-price").value),
+        kioskPrice: Number(document.getElementById("edit-svc-kiosk-price").value),
+        commission: Number(document.getElementById("edit-svc-commission").value),
+        desc: document.getElementById("edit-svc-desc").value.trim(),
+        icon: "fa-solid fa-file-shield",
+        docsRequired: ["आधार कार्ड (Aadhaar Card)"]
+      };
+
+      services.push(s);
+      localStorage.setItem("portal_services_v6", JSON.stringify(services));
+      if (isFirebaseReady && db) {
+        db.ref('services/' + s.id).set(s);
+      }
+      closeModal("service-editor-modal");
+      showToast("नई सेवा सुरक्षित हो गई!");
+    }
+
+    function openPortalSettingsModal() {
+      document.getElementById("set-ticker-text").value = portalSettings.ticker || "";
+      document.getElementById("set-rzp-key").value = portalSettings.rzpKey || "";
+      document.getElementById("set-merchant-name").value = portalSettings.merchantName || "";
+      document.getElementById("set-min-withdrawal").value = portalSettings.minWithdrawal || 200;
+      document.getElementById("portal-settings-modal").classList.add("active");
+    }
+
+    function savePortalSettings(e) {
+      e.preventDefault();
+      portalSettings.ticker = document.getElementById("set-ticker-text").value.trim();
+      portalSettings.rzpKey = document.getElementById("set-rzp-key").value.trim();
+      portalSettings.merchantName = document.getElementById("set-merchant-name").value.trim();
+      portalSettings.minWithdrawal = Number(document.getElementById("set-min-withdrawal").value);
+      
+      localStorage.setItem("portal_settings_v6", JSON.stringify(portalSettings));
+      if (isFirebaseReady && db) {
+        db.ref('portal_settings').set(portalSettings);
+      }
+      document.getElementById("live-ticker-text").innerText = portalSettings.ticker;
+      closeModal("portal-settings-modal");
+      showToast("पोर्टल सेटिंग्स सुरक्षित हुईं!");
+    }
+
+    function exportAdminCSV() {
+      const rows = allApplications.map(a => `"${a.trackingId}","${a.name}","${a.mobile}","${a.serviceName}","${a.price}","${a.status}","${a.appliedByRole}"`);
+      const csv = "data:text/csv;charset=utf-8,\uFEFFTracking ID,Name,Mobile,Service,Price,Status,Channel\n" + rows.join("\n");
+      const a = document.createElement("a");
+      a.href = encodeURI(csv);
+      a.download = `JanSeva_Apps_${Date.now()}.csv`;
+      a.click();
+    }
+
+    /* 18. DATA PERSISTENCE & SAFE FIREBASE SAVERS */
+    function saveAppsState() {
+      localStorage.setItem("portal_apps_v6", JSON.stringify(allApplications));
+      if (isFirebaseReady && db) {
+        // Safe key-based updates in Firebase
+        const updates = {};
+        allApplications.forEach(app => {
+          updates['applications/' + app.trackingId] = app;
+        });
+        db.ref().update(updates);
+      }
+    }
+
+    function saveKiosksState() {
+      localStorage.setItem("portal_kiosks_v6", JSON.stringify(allKiosks));
+      if (isFirebaseReady && db) {
+        const updates = {};
+        allKiosks.forEach(k => {
+          updates['kiosks/' + k.mobile] = k;
+        });
+        db.ref().update(updates);
+      }
+    }
+
+    function saveCitizensState() {
+      localStorage.setItem("portal_citizens_v6", JSON.stringify(allCitizens));
+      if (isFirebaseReady && db) {
+        const updates = {};
+        allCitizens.forEach(c => {
+          updates['citizens/' + c.mobile] = c;
+        });
+        db.ref().update(updates);
+      }
+    }
+
+    function getTodayDateString() {
+      const d = new Date();
+      return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+    }
+
+    function getStatusBadgeClass(st) {
+      if (st === 'Approved') return 'status-approved';
+      if (st === 'Rejected') return 'status-rejected';
+      if (st === 'In Progress') return 'status-process';
+      if (st === 'Clarification Needed') return 'status-clarification';
+      return 'status-pending';
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove("active");
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("native-toast");
+      document.getElementById("toast-text").innerText = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3500);
+    }
+
+    function escapeHtml(s) {
+      return String(s || "").replace(/[&<>"']/g, m => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' })[m]);
+    }
+  </script>
+</body>
+</html>
